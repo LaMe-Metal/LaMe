@@ -6,14 +6,17 @@
   <title>LaMe</title>
   <style>
     :root {
-      --bg: #0b0b0b;
-      --panel: #111111;
-      --panel-2: #181818;
-      --line: #2b2b2b;
+      --bg: #070707;
+      --bg-2: #0d0d0d;
+      --panel: #121212;
+      --panel-strong: #181818;
+      --line: rgba(255,255,255,0.09);
+      --line-strong: rgba(255,255,255,0.18);
       --text: #f3f3f3;
       --muted: #a3a3a3;
-      --red: #b61125;
-      --red-soft: #d12338;
+      --red: #b10d1e;
+      --red-bright: #d92338;
+      --shadow: rgba(0, 0, 0, 0.55);
     }
 
     * { box-sizing: border-box; }
@@ -21,7 +24,9 @@
     html, body {
       margin: 0;
       min-height: 100vh;
-      background: var(--bg);
+      background:
+        radial-gradient(circle at top, rgba(177, 13, 30, 0.14), transparent 30%),
+        linear-gradient(180deg, #070707 0%, #0a0a0a 100%);
       color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
     }
@@ -30,148 +35,168 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: 28px;
     }
 
-    .box {
-      width: min(100%, 760px);
-      background: var(--panel);
+    .shell {
+      width: min(100%, 820px);
+      background: rgba(18, 18, 18, 0.9);
       border: 1px solid var(--line);
-      padding: 24px;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.02), 0 22px 50px var(--shadow);
+      padding: clamp(18px, 3vw, 30px);
+      position: relative;
+    }
+
+    .shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(90deg, rgba(177,13,30,0.12), transparent 22%, transparent 78%, rgba(177,13,30,0.12));
     }
 
     .brand {
-      margin: 0 0 20px;
-      font-size: 26px;
-      font-weight: 700;
-      letter-spacing: 0.18em;
+      position: relative;
+      z-index: 1;
+      margin: 0 0 26px;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 900;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
+      color: var(--text);
+      line-height: 1;
     }
 
     .brand span {
       color: var(--red);
     }
 
-    .section {
-      margin-top: 18px;
-      padding: 18px 16px;
+    .stack {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 18px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(20,20,20,0.98), rgba(14,14,14,0.98));
       border: 1px solid var(--line);
-      background: var(--panel-2);
+      padding: 20px 18px 18px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
     }
 
     .title {
-      margin: 0 0 14px;
-      font-size: 18px;
-      letter-spacing: 0.12em;
+      margin: 0 0 16px;
+      font-size: clamp(16px, 2vw, 26px);
+      letter-spacing: 0.14em;
       text-transform: uppercase;
+      font-weight: 800;
       color: var(--text);
     }
 
-    .subtitle {
-      margin: 0 0 12px;
-      color: var(--muted);
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-
-    .platforms {
-      display: flex;
+    .list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
-      flex-wrap: wrap;
     }
 
-    .platform-btn {
+    .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 46px;
-      padding: 12px 16px;
-      border: 1px solid var(--red);
+      min-height: 52px;
+      padding: 12px 18px;
       background: var(--red);
+      border: 1px solid var(--red);
       color: var(--text);
       text-decoration: none;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       font-size: 10px;
-      font-weight: 700;
-      transition: background 0.2s ease, border-color 0.2s ease;
+      font-weight: 800;
+      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+      box-shadow: 0 8px 18px rgba(177, 13, 30, 0.24);
     }
 
-    .platform-btn.secondary {
+    .btn:hover {
+      transform: translateY(-1px);
+      background: var(--red-bright);
+      border-color: var(--red-bright);
+    }
+
+    .btn.secondary {
       background: transparent;
-      border-color: var(--line);
-      color: var(--text);
+      border-color: var(--line-strong);
+      box-shadow: none;
     }
 
-    .platform-btn:hover {
-      background: var(--red-soft);
-      border-color: var(--red-soft);
+    .btn.secondary:hover {
+      border-color: rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.02);
     }
 
-    .platform-btn.secondary:hover {
-      background: #1a1a1a;
-      border-color: var(--text);
-    }
-
-    .tiny-link {
-      display: block;
+    .meta {
+      display: grid;
+      gap: 10px;
       margin-top: 14px;
+    }
+
+    .meta a {
       color: var(--muted);
       text-decoration: none;
+      font-size: 12px;
+      line-height: 1.5;
       word-break: break-all;
-      line-height: 1.6;
-      font-size: 13px;
+      opacity: 0.9;
     }
 
-    .tiny-link:hover {
+    .meta a:hover {
+      color: var(--text);
       text-decoration: underline;
+    }
+
+    @media (max-width: 620px) {
+      .list {
+        grid-template-columns: 1fr;
+      }
+
+      .brand {
+        letter-spacing: 0.14em;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="box">
+  <main class="shell">
     <div class="brand">La<span>Me</span></div>
 
-    <section class="section">
-      <h2 class="title">Suppressed Scream</h2>
+    <div class="stack">
+      <section class="card">
+        <h2 class="title">Suppressed Scream</h2>
 
-      <div class="platforms">
-        <a class="platform-btn" href="https://www.bandlab.com/post/385c45b9-63f3-440d-a55e-360ce27cd58b" target="_blank" rel="noreferrer">
-          BandLab
-        </a>
+        <div class="list">
+          <a class="btn" href="https://youtu.be/mz3qG9PVwJc?si=T6bikvwP0WClXUt5" target="_blank" rel="noreferrer">YouTube</a>
+          <a class="btn secondary" href="https://www.instagram.com/lame_is_trash?cplk=eDV3OGV2b3YwOWNj&utm_source=qr" target="_blank" rel="noreferrer">Instagram</a>
+          <a class="btn secondary" href="https://www.bandlab.com/post/385c45b9-63f3-440d-a55e-360ce27cd58b" target="_blank" rel="noreferrer">BandLab</a>
+        </div>
 
-        <a class="platform-btn secondary" href="https://youtu.be/mz3qG9PVwJc?si=T6bikvwP0WClXUt5" target="_blank" rel="noreferrer">
-          YouTube
-        </a>
-      </div>
+        <div class="meta">
+          <a href="https://youtu.be/mz3qG9PVwJc?si=T6bikvwP0WClXUt5" target="_blank" rel="noreferrer">https://youtu.be/mz3qG9PVwJc?si=T6bikvwP0WClXUt5</a>
+          <a href="https://www.instagram.com/lame_is_trash?cplk=eDV3OGV2b3YwOWNj&utm_source=qr" target="_blank" rel="noreferrer">https://www.instagram.com/lame_is_trash?cplk=eDV3OGV2b3YwOWNj&utm_source=qr</a>
+          <a href="https://www.bandlab.com/post/385c45b9-63f3-440d-a55e-360ce27cd58b" target="_blank" rel="noreferrer">https://www.bandlab.com/post/385c45b9-63f3-440d-a55e-360ce27cd58b</a>
+        </div>
+      </section>
 
-      <a class="tiny-link" href="https://www.bandlab.com/post/385c45b9-63f3-440d-a55e-360ce27cd58b" target="_blank" rel="noreferrer">
-        https://www.bandlab.com/post/385c45b9-63f3-440d-a55e-360ce27cd58b
-      </a>
+      <section class="card">
+        <h2 class="title">Official accounts</h2>
 
-      <a class="tiny-link" href="https://youtu.be/mz3qG9PVwJc?si=T6bikvwP0WClXUt5" target="_blank" rel="noreferrer">
-        https://youtu.be/mz3qG9PVwJc?si=T6bikvwP0WClXUt5
-      </a>
-    </section>
-
-    <section class="section">
-      <h2 class="subtitle">Official accounts</h2>
-
-      <div class="platforms">
-        <a class="platform-btn" href="https://www.youtube.com/@LaMe_is_trash" target="_blank" rel="noreferrer">
-          YouTube
-        </a>
-
-        <a class="platform-btn secondary" href="https://www.bandlab.com/lame_official" target="_blank" rel="noreferrer">
-          BandLab
-        </a>
-
-        <a class="platform-btn secondary" href="https://www.instagram.com/lame_is_trash?cplk=eDV3OGV2b3YwOWNj&utm_source=qr" target="_blank" rel="noreferrer">
-          Instagram
-        </a>
-      </div>
-    </section>
+        <div class="list">
+          <a class="btn" href="https://www.youtube.com/@LaMe_is_trash" target="_blank" rel="noreferrer">YouTube</a>
+          <a class="btn secondary" href="https://www.instagram.com/lame_is_trash?cplk=eDV3OGV2b3YwOWNj&utm_source=qr" target="_blank" rel="noreferrer">Instagram</a>
+          <a class="btn secondary" href="https://www.bandlab.com/lame_official" target="_blank" rel="noreferrer">BandLab</a>
+        </div>
+      </section>
+    </div>
   </main>
 </body>
 </html>
