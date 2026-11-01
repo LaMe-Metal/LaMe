@@ -54,7 +54,6 @@
     .brand span { color: var(--red); }
 
     .admin-btn,
-    .btn,
     .fake-btn,
     button {
       background: #1b1b1b;
@@ -67,7 +66,6 @@
       text-transform: uppercase;
     }
 
-    .btn.primary,
     .fake-btn.primary {
       background: var(--red);
       border-color: var(--red);
@@ -81,7 +79,6 @@
     }
 
     .meta {
-      margin-top: 0;
       color: var(--muted);
       font-size: 11px;
       letter-spacing: 0.14em;
@@ -108,7 +105,7 @@
 
     input[type="file"] { display: none; }
 
-    .loader {
+    .status {
       display: flex;
       align-items: center;
       gap: 10px;
@@ -120,6 +117,7 @@
       font-size: 10px;
       letter-spacing: 0.14em;
       text-transform: uppercase;
+      min-height: 40px;
     }
 
     .spinner {
@@ -129,6 +127,11 @@
       border-top-color: var(--white);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
+      display: none;
+    }
+
+    .status.loading .spinner {
+      display: block;
     }
 
     @keyframes spin {
@@ -217,13 +220,11 @@
     }
 
     .delete {
-      display: none;
+      display: inline-block;
       font-size: 9px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
     }
-
-    .app.admin .delete { display: inline-block; }
 
     .empty {
       padding: 18px 12px;
@@ -269,13 +270,13 @@
       <div id="activeTitle" class="title-main">No track yet</div>
     </div>
 
-    <div id="adminControls" class="controls hidden">
+    <div id="adminControls" class="controls">
       <label class="fake-btn primary" for="mediaInput">Upload</label>
     </div>
 
-    <div id="uploadLoader" class="loader hidden">
+    <div id="uploadStatus" class="status hidden">
       <div class="spinner"></div>
-      <span>Uploading...</span>
+      <span id="uploadText">Uploading...</span>
     </div>
 
     <input id="mediaInput" type="file" accept="audio/*,video/*,.dat,.mp3,.wav,.ogg,.aac,.m4a,.flac,.mp4,.m4v,.mov,.avi,.webm,.3gp,.3g2" multiple />
@@ -290,18 +291,16 @@
     <ul id="trackList" class="list"></ul>
   </div>
 
-  <div id="version" class="version">v0.4</div>
+  <div id="version" class="version">v0.6</div>
 
   <script>
-    const ADMIN_PASSWORD = 'LaMeMetal2026';
     const STORAGE_KEY = 'lame_tracks_v2';
-    const ACCESS_KEY = 'lame_admin_access';
-    const APP_VERSION = 'v0.4';
+    const APP_VERSION = 'v0.6';
 
-    const app = document.getElementById('app');
     const adminBtn = document.getElementById('adminBtn');
     const adminControls = document.getElementById('adminControls');
-    const uploadLoader = document.getElementById('uploadLoader');
+    const uploadStatus = document.getElementById('uploadStatus');
+    const uploadText = document.getElementById('uploadText');
     const audioPlayer = document.getElementById('audioPlayer');
     const videoPlayer = document.getElementById('videoPlayer');
     const mediaInput = document.getElementById('mediaInput');
@@ -316,35 +315,15 @@
       version.textContent = APP_VERSION;
     }
 
-    function showLoader() {
-      if (uploadLoader) uploadLoader.classList.remove('hidden');
+    function showStatus(text, loading) {
+      uploadStatus.classList.remove('hidden');
+      uploadStatus.classList.toggle('loading', !!loading);
+      uploadText.textContent = text;
     }
 
-    function hideLoader() {
-      if (uploadLoader) uploadLoader.classList.add('hidden');
-    }
-
-    function hasAccess() {
-      return localStorage.getItem(ACCESS_KEY) === 'allowed';
-    }
-
-    function unlockAdmin() {
-      const password = prompt('Password:');
-      if (password === ADMIN_PASSWORD) {
-        localStorage.setItem(ACCESS_KEY, 'allowed');
-        app.classList.add('admin');
-        adminControls.classList.remove('hidden');
-        return true;
-      }
-      alert('Access denied.');
-      return false;
-    }
-
-    function setAdminState() {
-      if (hasAccess()) {
-        app.classList.add('admin');
-        adminControls.classList.remove('hidden');
-      }
+    function hideStatus() {
+      uploadStatus.classList.add('hidden');
+      uploadStatus.classList.remove('loading');
     }
 
     function saveTracks() {
@@ -473,11 +452,6 @@
     }
 
     function deleteTrack(index) {
-      if (!hasAccess()) {
-        unlockAdmin();
-        return;
-      }
-
       tracks.splice(index, 1);
       if (activeIndex >= tracks.length) activeIndex = tracks.length - 1;
       saveTracks();
@@ -500,21 +474,16 @@
     }
 
     async function handleMediaUpload(files) {
-      if (!hasAccess()) {
-        const ok = unlockAdmin();
-        if (!ok) return;
-      }
-
-      const valid = Array.from(files).filter(isPlayable);
-      if (!valid.length) {
+      const selected = Array.from(files || []).filter(isPlayable);
+      if (!selected.length) {
         alert('Only audio/video files are allowed.');
         return;
       }
 
-      showLoader();
+      showStatus('Uploading...', true);
 
       try {
-        for (const file of valid) {
+        for (const file of selected) {
           const maxSize = isVideoFile(file) ? 50 * 1024 * 1024 : 25 * 1024 * 1024;
           if (file.size > maxSize) {
             alert('File is too large.');
@@ -537,8 +506,14 @@
           activeIndex = 0;
           playTrack(0);
         }
+
+        showStatus('Done', false);
+        setTimeout(() => hideStatus(), 800);
+      } catch (error) {
+        console.error(error);
+        showStatus('Error', false);
+        setTimeout(() => hideStatus(), 1200);
       } finally {
-        hideLoader();
         mediaInput.value = '';
       }
     }
@@ -563,12 +538,7 @@
 
     function setupEvents() {
       adminBtn.addEventListener('click', () => {
-        if (hasAccess()) {
-          app.classList.add('admin');
-          adminControls.classList.remove('hidden');
-          return;
-        }
-        unlockAdmin();
+        adminControls.classList.toggle('hidden');
       });
 
       mediaInput.addEventListener('change', (event) => {
@@ -591,7 +561,6 @@
     function init() {
       setVersion();
       loadTracks();
-      setAdminState();
       renderTracks();
       setupEvents();
     }
