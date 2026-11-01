@@ -8,11 +8,10 @@
     :root {
       --bg: #0b0b0b;
       --line: #2b2b2b;
-      --panel: #111111;
-      --text: #f2f2f2;
-      --muted: #a7a7a7;
+      --text: #f3f3f3;
+      --muted: #a5a5a5;
       --red: #b61125;
-      --white: #ffffff;
+      --panel: #101010;
     }
 
     * { box-sizing: border-box; }
@@ -25,106 +24,79 @@
 
     body {
       min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .box {
+      width: min(100%, 720px);
+      background: var(--panel);
+      border: 1px solid var(--line);
       padding: 18px;
     }
 
-    .wrap {
-      max-width: 760px;
-      margin: 0 auto;
-      background: #101010;
-      border: 1px solid var(--line);
-      padding: 14px;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
     .brand {
+      font-size: 22px;
       font-weight: 700;
-      font-size: 20px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
+      margin-bottom: 16px;
     }
 
-    .brand span { color: var(--red); }
-
-    .admin-btn,
-    .fake-btn,
-    button {
-      background: #1b1b1b;
-      color: var(--text);
-      border: 1px solid var(--line);
-      padding: 8px 10px;
-      cursor: pointer;
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
+    .brand span {
+      color: var(--red);
     }
 
-    .fake-btn.primary {
-      background: var(--red);
-      border-color: var(--red);
-    }
-
-    .panel {
-      background: #0f0f0f;
-      border: 1px solid var(--line);
-      padding: 12px;
-      margin-bottom: 12px;
-    }
-
-    .meta {
-      color: var(--muted);
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-
-    .title-main {
-      margin-top: 6px;
-      font-size: 26px;
-      line-height: 1.1;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 14px 0;
-    }
-
-    .hidden { display: none !important; }
-
-    input[type="file"] { display: none; }
-
-    .status {
+    .upload-wrap {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 10px 12px;
-      margin: 12px 0;
-      border: 1px solid var(--line);
-      background: #0f0f0f;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .fake-btn {
+      display: inline-block;
+      background: var(--red);
       color: var(--text);
+      border: 1px solid var(--red);
+      padding: 10px 14px;
       font-size: 10px;
       letter-spacing: 0.14em;
       text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .status {
+      display: none;
+      align-items: center;
+      gap: 10px;
       min-height: 40px;
+      border: 1px solid var(--line);
+      background: #0e0e0e;
+      color: var(--text);
+      padding: 8px 12px;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .status.show {
+      display: flex;
     }
 
     .spinner {
       width: 14px;
       height: 14px;
-      border: 2px solid #4a4a4a;
-      border-top-color: var(--white);
+      border: 2px solid #444;
+      border-top-color: white;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
       display: none;
@@ -138,103 +110,31 @@
       to { transform: rotate(360deg); }
     }
 
-    .player-box {
-      border: 1px solid var(--line);
-      background: #121212;
-      padding: 10px;
+    .video-box {
+      display: none;
       margin-top: 12px;
+      border: 1px solid var(--line);
+      background: #0d0d0d;
+      padding: 10px;
     }
 
-    audio, video {
+    .video-box.show {
+      display: block;
+    }
+
+    video {
       width: 100%;
       display: block;
       background: #000;
     }
 
-    .note {
-      margin-top: 12px;
-      padding: 8px 10px;
-      border: 1px solid var(--line);
-      background: #111;
+    .file-name {
+      margin-top: 10px;
       color: var(--muted);
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .list {
-      list-style: none;
-      margin: 14px 0 0;
-      padding: 0;
-      display: grid;
-      gap: 8px;
-    }
-
-    .item {
-      display: grid;
-      grid-template-columns: 38px 1fr auto auto;
-      align-items: center;
-      gap: 8px;
-      border: 1px solid var(--line);
-      padding: 8px;
-      background: #0e0e0e;
-    }
-
-    .play {
-      width: 34px;
-      height: 34px;
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--line);
-      cursor: pointer;
-      font-size: 12px;
-    }
-
-    .play.active {
-      background: var(--red);
-      border-color: var(--red);
-    }
-
-    .name {
-      font-size: 13px;
-      font-weight: 700;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .kind {
-      display: block;
-      margin-top: 2px;
-      font-size: 9px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .duration {
       font-size: 10px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .delete {
-      display: inline-block;
-      font-size: 9px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .empty {
-      padding: 18px 12px;
-      text-align: center;
-      background: #0f0f0f;
-      border: 1px dashed var(--line);
-      color: var(--muted);
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
+      word-break: break-all;
     }
 
     .version {
@@ -249,323 +149,84 @@
       letter-spacing: 0.14em;
       text-transform: uppercase;
     }
-
-    @media (max-width: 520px) {
-      body { padding: 12px; }
-      .item { grid-template-columns: 34px 1fr auto; }
-      .delete { grid-column: 2 / 4; width: 100%; }
-      .brand { font-size: 16px; }
-    }
   </style>
 </head>
 <body>
-  <div id="app" class="wrap">
-    <div class="topbar">
-      <div class="brand">La<span>Me</span></div>
-      <button class="admin-btn" id="adminBtn">Admin</button>
+  <div class="box">
+    <div class="brand">La<span>Me</span></div>
+
+    <div class="upload-wrap">
+      <label class="fake-btn" for="mp4Input">Upload MP4</label>
+      <input id="mp4Input" type="file" accept="video/mp4,video/x-m4v,.mp4,.m4v" />
     </div>
 
-    <div class="panel">
-      <div class="meta">Latest release</div>
-      <div id="activeTitle" class="title-main">No track yet</div>
-    </div>
-
-    <div id="adminControls" class="controls">
-      <label class="fake-btn primary" for="mediaInput">Upload</label>
-    </div>
-
-    <div id="uploadStatus" class="status hidden">
+    <div id="status" class="status">
       <div class="spinner"></div>
-      <span id="uploadText">Uploading...</span>
+      <span id="statusText">Uploading...</span>
     </div>
 
-    <input id="mediaInput" type="file" accept="audio/*,video/*,.dat,.mp3,.wav,.ogg,.aac,.m4a,.flac,.mp4,.m4v,.mov,.avi,.webm,.3gp,.3g2" multiple />
-
-    <div class="player-box">
-      <audio id="audioPlayer" controls preload="metadata"></audio>
-      <video id="videoPlayer" controls preload="metadata" class="hidden"></video>
+    <div id="videoBox" class="video-box">
+      <video id="videoPlayer" controls playsinline></video>
+      <div id="fileName" class="file-name"></div>
     </div>
-
-    <div class="note">iPhone: .MOV / .MP4 / .M4V supported</div>
-
-    <ul id="trackList" class="list"></ul>
   </div>
 
-  <div id="version" class="version">v0.6</div>
+  <div class="version">v0.6</div>
 
   <script>
-    const STORAGE_KEY = 'lame_tracks_v2';
-    const APP_VERSION = 'v0.6';
-
-    const adminBtn = document.getElementById('adminBtn');
-    const adminControls = document.getElementById('adminControls');
-    const uploadStatus = document.getElementById('uploadStatus');
-    const uploadText = document.getElementById('uploadText');
-    const audioPlayer = document.getElementById('audioPlayer');
+    const mp4Input = document.getElementById('mp4Input');
+    const status = document.getElementById('status');
+    const statusText = document.getElementById('statusText');
+    const videoBox = document.getElementById('videoBox');
     const videoPlayer = document.getElementById('videoPlayer');
-    const mediaInput = document.getElementById('mediaInput');
-    const trackList = document.getElementById('trackList');
-    const activeTitle = document.getElementById('activeTitle');
-    const version = document.getElementById('version');
-
-    let tracks = [];
-    let activeIndex = -1;
-
-    function setVersion() {
-      version.textContent = APP_VERSION;
-    }
+    const fileName = document.getElementById('fileName');
 
     function showStatus(text, loading) {
-      uploadStatus.classList.remove('hidden');
-      uploadStatus.classList.toggle('loading', !!loading);
-      uploadText.textContent = text;
+      status.classList.add('show');
+      status.classList.toggle('loading', !!loading);
+      statusText.textContent = text;
     }
 
     function hideStatus() {
-      uploadStatus.classList.add('hidden');
-      uploadStatus.classList.remove('loading');
+      status.classList.remove('show');
+      status.classList.remove('loading');
     }
 
-    function saveTracks() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(tracks));
-    }
+    function handleMp4(file) {
+      if (!file) return;
 
-    function loadTracks() {
-      try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (!saved) return;
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) tracks = parsed;
-      } catch (e) {
-        console.error('Load tracks error:', e);
-      }
-    }
+      const name = file.name.toLowerCase();
+      const ok = file.type === 'video/mp4' || file.type === 'video/x-m4v' || /\.(mp4|m4v)$/i.test(name);
 
-    function readFileAsDataUrl(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-    }
-
-    function isAudioFile(file) {
-      const name = (file && file.name) ? file.name.toLowerCase() : '';
-      return file && (
-        file.type.startsWith('audio/') ||
-        /\.(mp3|wav|ogg|aac|m4a|flac|dat)$/i.test(name)
-      );
-    }
-
-    function isVideoFile(file) {
-      const name = (file && file.name) ? file.name.toLowerCase() : '';
-      return file && (
-        file.type.startsWith('video/') ||
-        /\.(mp4|m4v|mov|avi|webm|3gp|3g2|mpeg|ogv)$/i.test(name)
-      );
-    }
-
-    function isPlayable(file) {
-      return isAudioFile(file) || isVideoFile(file);
-    }
-
-    function updateMediaSource(track) {
-      audioPlayer.pause();
-      videoPlayer.pause();
-      audioPlayer.removeAttribute('src');
-      videoPlayer.removeAttribute('src');
-      audioPlayer.classList.toggle('hidden', !!track && track.kind === 'video');
-      videoPlayer.classList.toggle('hidden', !track || track.kind !== 'video');
-
-      if (!track) return;
-      if (track.kind === 'video') videoPlayer.src = track.url;
-      else audioPlayer.src = track.url;
-    }
-
-    function renderTracks() {
-      trackList.innerHTML = '';
-
-      if (!tracks.length) {
-        trackList.innerHTML = '<li class="empty">No tracks</li>';
+      if (!ok) {
+        showStatus('Only MP4', false);
+        setTimeout(() => hideStatus(), 1200);
         return;
       }
 
-      tracks.forEach((track, index) => {
-        const li = document.createElement('li');
-        li.className = 'item';
-
-        const playBtn = document.createElement('button');
-        playBtn.className = 'play' + (activeIndex === index ? ' active' : '');
-        const isPlaying = activeIndex === index && ((track.kind === 'video' && !videoPlayer.paused) || (track.kind !== 'video' && !audioPlayer.paused));
-        playBtn.textContent = isPlaying ? '||' : '▶';
-        playBtn.addEventListener('click', () => playTrack(index));
-
-        const textWrap = document.createElement('div');
-        const name = document.createElement('div');
-        name.className = 'name';
-        name.textContent = track.name;
-        const kind = document.createElement('span');
-        kind.className = 'kind';
-        kind.textContent = track.kind || 'audio';
-        textWrap.appendChild(name);
-        textWrap.appendChild(kind);
-
-        const duration = document.createElement('div');
-        duration.className = 'duration';
-        duration.textContent = track.duration || '—';
-
-        const del = document.createElement('button');
-        del.className = 'delete';
-        del.textContent = 'Delete';
-        del.addEventListener('click', () => deleteTrack(index));
-
-        li.appendChild(playBtn);
-        li.appendChild(textWrap);
-        li.appendChild(duration);
-        li.appendChild(del);
-        trackList.appendChild(li);
-      });
-    }
-
-    function playTrack(index) {
-      const track = tracks[index];
-      if (!track) return;
-
-      if (activeIndex === index) {
-        if (track.kind === 'video') {
-          if (videoPlayer.paused) videoPlayer.play();
-          else videoPlayer.pause();
-        } else {
-          if (audioPlayer.paused) audioPlayer.play();
-          else audioPlayer.pause();
-        }
-      } else {
-        activeIndex = index;
-        activeTitle.textContent = track.name;
-        updateMediaSource(track);
-        if (track.kind === 'video') videoPlayer.play();
-        else audioPlayer.play();
-      }
-
-      renderTracks();
-    }
-
-    function deleteTrack(index) {
-      tracks.splice(index, 1);
-      if (activeIndex >= tracks.length) activeIndex = tracks.length - 1;
-      saveTracks();
-      renderTracks();
-
-      if (!tracks.length) {
-        activeTitle.textContent = 'No track yet';
-        audioPlayer.pause();
-        videoPlayer.pause();
-        audioPlayer.removeAttribute('src');
-        videoPlayer.removeAttribute('src');
-        return;
-      }
-
-      if (activeIndex >= 0) {
-        const chosen = tracks[activeIndex];
-        activeTitle.textContent = chosen.name;
-        updateMediaSource(chosen);
-      }
-    }
-
-    async function handleMediaUpload(files) {
-      const selected = Array.from(files || []).filter(isPlayable);
-      if (!selected.length) {
-        alert('Only audio/video files are allowed.');
+      if (file.size > 80 * 1024 * 1024) {
+        showStatus('File too large', false);
+        setTimeout(() => hideStatus(), 1200);
         return;
       }
 
       showStatus('Uploading...', true);
 
-      try {
-        for (const file of selected) {
-          const maxSize = isVideoFile(file) ? 50 * 1024 * 1024 : 25 * 1024 * 1024;
-          if (file.size > maxSize) {
-            alert('File is too large.');
-            continue;
-          }
+      const objUrl = URL.createObjectURL(file);
+      videoPlayer.src = objUrl;
+      videoPlayer.load();
+      fileName.textContent = file.name;
+      videoBox.classList.add('show');
 
-          const dataUrl = await readFileAsDataUrl(file);
-          tracks.push({
-            name: file.name.replace(/\.[^.]+$/, ''),
-            url: dataUrl,
-            kind: isVideoFile(file) ? 'video' : 'audio',
-            duration: '—'
-          });
-        }
-
-        saveTracks();
-        renderTracks();
-
-        if (tracks.length && activeIndex < 0) {
-          activeIndex = 0;
-          playTrack(0);
-        }
-
-        showStatus('Done', false);
-        setTimeout(() => hideStatus(), 800);
-      } catch (error) {
-        console.error(error);
-        showStatus('Error', false);
-        setTimeout(() => hideStatus(), 1200);
-      } finally {
-        mediaInput.value = '';
-      }
+      setTimeout(() => {
+        hideStatus();
+      }, 900);
     }
 
-    function formatDuration(seconds) {
-      if (!isFinite(seconds)) return '—';
-      const total = Math.floor(seconds);
-      const m = Math.floor(total / 60);
-      const s = total % 60;
-      return `${m}:${String(s).padStart(2, '0')}`;
-    }
-
-    function bindDuration(player, track) {
-      if (!track) return;
-      const sec = Number.isFinite(player.duration) ? player.duration : 0;
-      if (sec > 0) {
-        track.duration = formatDuration(sec);
-        saveTracks();
-        renderTracks();
-      }
-    }
-
-    function setupEvents() {
-      adminBtn.addEventListener('click', () => {
-        adminControls.classList.toggle('hidden');
-      });
-
-      mediaInput.addEventListener('change', (event) => {
-        handleMediaUpload(event.target.files || []);
-      });
-
-      audioPlayer.addEventListener('loadedmetadata', () => {
-        const track = tracks[activeIndex];
-        if (!track || track.kind !== 'audio') return;
-        bindDuration(audioPlayer, track);
-      });
-
-      videoPlayer.addEventListener('loadedmetadata', () => {
-        const track = tracks[activeIndex];
-        if (!track || track.kind !== 'video') return;
-        bindDuration(videoPlayer, track);
-      });
-    }
-
-    function init() {
-      setVersion();
-      loadTracks();
-      renderTracks();
-      setupEvents();
-    }
-
-    init();
+    mp4Input.addEventListener('change', (event) => {
+      const file = event.target.files && event.target.files[0];
+      handleMp4(file);
+    });
   </script>
 </body>
 </html>
