@@ -232,6 +232,22 @@
       font-size: 10px;
     }
 
+    .version-badge {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 20;
+      background: rgba(12, 12, 12, 0.9);
+      color: var(--text);
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+      padding: 6px 10px;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border-radius: 8px;
+    }
+
     @media (max-width: 420px) {
       .controls { grid-template-columns: 1fr; }
       .cover-box { height: 240px; }
@@ -260,7 +276,7 @@
       <label class="button" for="coverInput">Upload cover</label>
     </div>
 
-    <input id="mediaInput" type="file" accept="audio/*,video/*,.dat,.mp3,.wav,.ogg,.aac,.m4a,.flac,.mp4,.webm,.m4v,.mov,.avi" multiple />
+    <input id="mediaInput" type="file" accept="audio/*,video/*,.dat,.mp3,.wav,.ogg,.aac,.m4a,.flac,.mp4,.m4v,.mov,.avi,.webm,.3gp,.3g2" multiple />
     <input id="coverInput" type="file" accept="image/*" />
 
     <div class="player-box">
@@ -271,11 +287,14 @@
     <ul id="trackList" class="track-list"></ul>
   </div>
 
+  <div class="version-badge" id="versionBadge">v0.1</div>
+
   <script>
     const ADMIN_PASSWORD = 'LaMeMetal2026';
     const STORAGE_KEY = 'lame_tracks_v2';
     const COVER_KEY = 'lame_cover_v2';
     const ACCESS_KEY = 'lame_admin_access';
+    const APP_VERSION = 'v0.1';
 
     const adminBtn = document.getElementById('adminBtn');
     const adminControls = document.getElementById('adminControls');
@@ -287,9 +306,14 @@
     const activeTitle = document.getElementById('activeTitle');
     const mediaInput = document.getElementById('mediaInput');
     const coverInput = document.getElementById('coverInput');
+    const versionBadge = document.getElementById('versionBadge');
 
     let tracks = [];
     let activeIndex = -1;
+
+    function setVersionBadge() {
+      if (versionBadge) versionBadge.textContent = APP_VERSION;
+    }
 
     function isAudioFile(file) {
       const name = (file && file.name) ? file.name.toLowerCase() : '';
@@ -303,7 +327,7 @@
       const name = (file && file.name) ? file.name.toLowerCase() : '';
       return file && (
         file.type.startsWith('video/') ||
-        /\.(mp4|webm|m4v|mov|avi|mpeg|3gp|ogv)$/i.test(name)
+        /\.(mp4|m4v|mov|avi|webm|3gp|3g2|mpeg|ogv)$/i.test(name)
       );
     }
 
@@ -408,8 +432,7 @@
 
         const playBtn = document.createElement('button');
         playBtn.className = 'play-btn' + (activeIndex === index ? ' active' : '');
-        const isCurrentVideo = activeIndex === index && tracks[index].kind === 'video';
-        const isCurrentPlaying = activeIndex === index && ((tracks[index].kind === 'video' && !videoPlayer.paused) || (tracks[index].kind !== 'video' && !audioPlayer.paused));
+        const isCurrentPlaying = activeIndex === index && ((track.kind === 'video' && !videoPlayer.paused) || (track.kind !== 'video' && !audioPlayer.paused));
         playBtn.textContent = isCurrentPlaying ? '||' : '▶';
         playBtn.addEventListener('click', () => playTrack(index));
 
@@ -501,7 +524,7 @@
 
       const valid = Array.from(files).filter(isPlayableMediaFile);
       if (!valid.length) {
-        alert('Pouze audio nebo video soubory (.mp3, .wav, .ogg, .aac, .m4a, .flac, .dat, .mp4, .webm, .mov, .avi).');
+        alert('Pouze audio nebo video soubory (.mp3, .wav, .ogg, .aac, .m4a, .flac, .dat, .mp4, .m4v, .mov, .avi, .webm, .3gp).');
         return;
       }
 
@@ -604,6 +627,7 @@
     }
 
     function init() {
+      setVersionBadge();
       loadTracks();
       loadCover();
       setAdminState();
