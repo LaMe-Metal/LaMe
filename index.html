@@ -138,6 +138,28 @@
       word-break: break-all;
     }
 
+    .bandlab {
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      background: #0d0d0d;
+      padding: 12px;
+    }
+
+    .bandlab h2 {
+      margin: 0 0 12px;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .bandlab-frame {
+      width: 100%;
+      min-height: 420px;
+      border: 0;
+      background: #000;
+    }
+
     .version {
       position: fixed;
       right: 16px;
@@ -169,6 +191,18 @@
     <div id="videoBox" class="video-box">
       <video id="videoPlayer" controls playsinline></video>
       <div id="fileName" class="file-name"></div>
+    </div>
+
+    <div class="bandlab">
+      <h2>BandLab</h2>
+      <iframe
+        class="bandlab-frame"
+        src="https://www.bandlab.com/embed/?id=385c45b9-63f3-440d-a55e-360ce27cd58b"
+        title="BandLab player"
+        loading="lazy"
+        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
+        allowfullscreen>
+      </iframe>
     </div>
   </div>
 
