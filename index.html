@@ -45,7 +45,6 @@
       justify-content: space-between;
       padding: 18px 6vw;
     }
-
     .logo {
       font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
       font-size: clamp(28px, 3vw, 42px);
@@ -107,13 +106,7 @@
       text-transform: uppercase;
       text-shadow: 0 0 18px rgba(242, 79, 97, 0.25);
     }
-
-    .hero p {
-      max-width: 520px;
-      color: var(--muted);
-      font-size: 1.06rem;
-      margin: 20px 0 28px;
-    }
+    .hero p { max-width: 520px; color: var(--muted); font-size: 1.06rem; margin: 20px 0 28px; }
 
     .hero-actions {
       display: flex;
@@ -139,10 +132,7 @@
       box-shadow: 0 10px 30px rgba(210, 31, 45, 0.2);
       cursor: pointer;
     }
-    .button:hover {
-      transform: translateY(-1px);
-      background: #f32d3d;
-    }
+    .button:hover { transform: translateY(-1px); background: #f32d3d; }
     .button.secondary {
       background: transparent;
       color: var(--text);
@@ -152,7 +142,6 @@
     .button.secondary:hover { background: rgba(255,255,255,0.04); }
 
     .hero-panel { display: flex; justify-content: center; }
-
     .release-card {
       width: min(100%, 410px);
       background: linear-gradient(180deg, rgba(17,17,17,0.96), rgba(12,12,12,1));
@@ -161,7 +150,6 @@
       border-radius: 18px;
       overflow: hidden;
     }
-
     .cover-art {
       position: relative;
       height: 220px;
@@ -184,10 +172,7 @@
       background: linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.16));
       pointer-events: none;
     }
-    .cover-art-text {
-      position: relative;
-      z-index: 1;
-    }
+    .cover-art-text { position: relative; z-index: 1; }
 
     .release-info { padding: 22px 22px 26px; }
     .release-info small {
@@ -207,11 +192,7 @@
       text-transform: uppercase;
       font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
     }
-    .release-info p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
+    .release-info p { margin: 0; color: var(--muted); font-size: 0.95rem; }
 
     main {
       max-width: 1100px;
@@ -219,7 +200,6 @@
       padding: 52px 24px 80px;
     }
     section { margin-top: 40px; }
-
     .section-title {
       display: flex;
       align-items: center;
@@ -278,11 +258,7 @@
       background-position: center;
       background-repeat: no-repeat;
     }
-
-    .track-summary h3 {
-      margin: 0 0 4px;
-      font-size: 1.05rem;
-    }
+    .track-summary h3 { margin: 0 0 4px; font-size: 1.05rem; }
     .track-summary p {
       margin: 0;
       color: var(--muted);
@@ -341,11 +317,7 @@
       border-color: var(--red);
       color: white;
     }
-    .track-row strong {
-      display: block;
-      font-size: 0.92rem;
-      letter-spacing: 0.02em;
-    }
+    .track-row strong { display: block; font-size: 0.92rem; letter-spacing: 0.02em; }
     .track-row small {
       display: block;
       color: var(--muted);
@@ -395,11 +367,7 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
-    input[type=range] {
-      flex: 1;
-      accent-color: var(--red);
-      cursor: pointer;
-    }
+    input[type=range] { flex: 1; accent-color: var(--red); cursor: pointer; }
 
     .info-box, .links-box { padding: 24px; }
     .info-box p, .links-box p {
@@ -518,12 +486,12 @@
                 <p id="trackInfo">LaMe · Metal</p>
               </div>
               <div class="actions-row">
-                <label class="label-button" id="fileLabel" for="audioFile">＋ Add audio/video</label>
+                <label class="label-button" id="fileLabel" for="audioFile">＋ Add audio</label>
                 <label class="label-button" id="coverLabel" for="coverUpload">Cover</label>
               </div>
             </div>
 
-            <input id="audioFile" type="file" accept="audio/*,video/*" multiple>
+            <input id="audioFile" type="file" accept="audio/*" multiple>
             <input id="coverUpload" type="file" accept="image/*">
             <div id="trackList" class="track-list"><div class="empty">Your releases will appear here.</div></div>
 
@@ -534,7 +502,7 @@
               <span id="totalTime">0:00</span>
             </div>
 
-            <p class="upload-note">Video files are accepted and treated as playable media in the player. For best results, use a local server and smaller files.</p>
+            <p class="upload-note">Přidej audio soubory a obal. Pro stabilitu na mobilu používej malé MP3/PNG soubory.</p>
           </div>
 
           <aside class="info-box">
@@ -574,6 +542,8 @@
     const TRACKS_KEY = 'lame_tracks_v1';
     const COVER_KEY = 'lame_cover_v1';
     const ACCESS_KEY = 'lame_access_v1';
+    const MAX_TRACK_SIZE = 8 * 1024 * 1024;
+    const MAX_COVER_SIZE = 2 * 1024 * 1024;
 
     const picker = document.getElementById('audioFile');
     const coverUpload = document.getElementById('coverUpload');
@@ -594,7 +564,7 @@
 
     function ensureAccess(event) {
       if (hasAccess()) return true;
-      const password = prompt('Zadej admin heslo pro nahrávání hudby, videa a obalu:');
+      const password = prompt('Zadej admin heslo pro nahrávání hudby a obalu:');
       if (password === ADMIN_PASSWORD) {
         localStorage.setItem(ACCESS_KEY, 'allowed');
         return true;
@@ -707,6 +677,30 @@
       });
     }
 
+    function validateTrackFile(file) {
+      if (!file.type.startsWith('audio/')) {
+        alert('Pouze audio soubory jsou povolené.');
+        return false;
+      }
+      if (file.size > MAX_TRACK_SIZE) {
+        alert('Audio soubor je moc velký. Použij soubor do 8 MB.');
+        return false;
+      }
+      return true;
+    }
+
+    function validateCoverFile(file) {
+      if (!file.type.startsWith('image/')) {
+        alert('Pouze obrázky jsou povolené pro obal.');
+        return false;
+      }
+      if (file.size > MAX_COVER_SIZE) {
+        alert('Obrázek je moc velký. Použij obrázek do 2 MB.');
+        return false;
+      }
+      return true;
+    }
+
     fileLabel.addEventListener('click', (event) => {
       if (!ensureAccess(event)) return;
       picker.click();
@@ -724,14 +718,15 @@
       if (!files.length) return;
 
       for (const file of files) {
-        const dataUrl = await readAsDataUrl(file);
-        const name = file.name.replace(/\.[^.]+$/, '');
-        tracks.push({
-          name,
-          url: dataUrl,
-          duration: '',
-          type: file.type || 'audio'
-        });
+        if (!validateTrackFile(file)) continue;
+
+        try {
+          const dataUrl = await readAsDataUrl(file);
+          const name = file.name.replace(/\.[^.]+$/, '');
+          tracks.push({ name, url: dataUrl, duration: '' });
+        } catch (error) {
+          console.error('Could not load track:', error);
+        }
       }
 
       saveTracks();
@@ -747,9 +742,19 @@
       const file = coverUpload.files && coverUpload.files[0];
       if (!file) return;
 
-      const dataUrl = await readAsDataUrl(file);
-      saveCover(dataUrl);
-      applyCover(dataUrl);
+      if (!validateCoverFile(file)) {
+        coverUpload.value = '';
+        return;
+      }
+
+      try {
+        const dataUrl = await readAsDataUrl(file);
+        saveCover(dataUrl);
+        applyCover(dataUrl);
+      } catch (error) {
+        console.error('Could not load cover:', error);
+      }
+
       coverUpload.value = '';
     });
 
