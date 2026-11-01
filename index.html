@@ -159,6 +159,23 @@
       opacity: 0.85;
     }
 
+    .release-wrap {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .cover {
+      width: 100%;
+      aspect-ratio: 1;
+      display: block;
+      object-fit: cover;
+      border: 1px solid var(--line-strong);
+      background: #111;
+      box-shadow: 0 18px 30px rgba(0,0,0,0.35), inset 0 0 20px rgba(255,255,255,0.02);
+    }
+
     .button-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -198,6 +215,10 @@
     }
 
     @media (max-width: 620px) {
+      .release-wrap {
+        grid-template-columns: 1fr;
+      }
+
       .button-grid {
         grid-template-columns: 1fr;
       }
@@ -227,9 +248,13 @@
           <div class="label">single</div>
         </div>
 
-        <div class="button-grid">
-          <a class="primary" href="https://youtu.be/mz3qG9PVwJc?si=T6bikvwP0WClXUt5" target="_blank" rel="noreferrer">YouTube</a>
-          <a class="secondary" href="https://www.bandlab.com/post/385c45b9-63f3-440d-a55e-360ce27cd58b" target="_blank" rel="noreferrer">BandLab</a>
+        <div class="release-wrap">
+          <img class="cover" src="https://drive.google.com/uc?export=view&id=1_4xVaMF4WGw56mB0GF-8s9OF2ujP2kLF" alt="Suppressed Scream cover art" />
+
+          <div class="button-grid">
+            <a class="primary" href="https://youtu.be/mz3qG9PVwJc?si=T6bikvwP0WClXUt5" target="_blank" rel="noreferrer">YouTube</a>
+            <a class="secondary" href="https://www.bandlab.com/post/385c45b9-63f3-440d-a55e-360ce27cd58b" target="_blank" rel="noreferrer">BandLab</a>
+          </div>
         </div>
       </section>
 
