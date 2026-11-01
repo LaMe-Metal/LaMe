@@ -171,7 +171,7 @@
     </div>
   </div>
 
-  <div class="version">v0.7</div>
+  <div class="version">v0.8</div>
 
   <script>
     const STORAGE_KEY = 'lame_last_mp4';
@@ -250,6 +250,8 @@
         videoBox.classList.add('show');
       } catch (error) {
         showStatus('Error', false);
+      } finally {
+        mp4Input.value = '';
       }
 
       setTimeout(() => {
