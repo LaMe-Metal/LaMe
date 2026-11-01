@@ -171,9 +171,12 @@
     </div>
   </div>
 
-  <div class="version">v0.6</div>
+  <div class="version">v0.7</div>
 
   <script>
+    const STORAGE_KEY = 'lame_last_mp4';
+    const FILE_NAME_KEY = 'lame_last_mp4_name';
+
     const mp4Input = document.getElementById('mp4Input');
     const status = document.getElementById('status');
     const statusText = document.getElementById('statusText');
@@ -192,7 +195,33 @@
       status.classList.remove('loading');
     }
 
-    function handleMp4(file) {
+    function readAsDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function saveVideo(file, dataUrl) {
+      localStorage.setItem(STORAGE_KEY, dataUrl);
+      localStorage.setItem(FILE_NAME_KEY, file.name);
+    }
+
+    function loadSavedVideo() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      const name = localStorage.getItem(FILE_NAME_KEY);
+
+      if (!saved) return;
+
+      videoPlayer.src = saved;
+      videoPlayer.load();
+      videoBox.classList.add('show');
+      if (name) fileName.textContent = name;
+    }
+
+    async function handleMp4(file) {
       if (!file) return;
 
       const name = file.name.toLowerCase();
@@ -212,11 +241,16 @@
 
       showStatus('Uploading...', true);
 
-      const objUrl = URL.createObjectURL(file);
-      videoPlayer.src = objUrl;
-      videoPlayer.load();
-      fileName.textContent = file.name;
-      videoBox.classList.add('show');
+      try {
+        const dataUrl = await readAsDataUrl(file);
+        saveVideo(file, dataUrl);
+        videoPlayer.src = dataUrl;
+        videoPlayer.load();
+        fileName.textContent = file.name;
+        videoBox.classList.add('show');
+      } catch (error) {
+        showStatus('Error', false);
+      }
 
       setTimeout(() => {
         hideStatus();
@@ -227,6 +261,8 @@
       const file = event.target.files && event.target.files[0];
       handleMp4(file);
     });
+
+    loadSavedVideo();
   </script>
 </body>
 </html>
