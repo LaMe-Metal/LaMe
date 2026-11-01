@@ -1,1 +1,182 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LaMe — Official Music</title>
+<style>
+:root {
+  --site-primary: #b51224;
+  --site-secondary: #26080d;
+  --site-background: #090909;
+  --site-on-background: #f5eeee;
+  --surface: #101010;
+  --muted: #929292;
+  --line: #292929;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: #090909; color: var(--site-on-background); font-family: Inter, system-ui, sans-serif; }
+#app { min-height: 100vh; background: var(--site-background); overflow: hidden; }
+header { min-height: 68px; display:flex; align-items:center; justify-content:space-between; padding:16px 6vw; border-bottom:1px solid var(--line); }
+.logo { font-family:Impact,sans-serif; font-size:30px; letter-spacing:2px; }
+.logo span { color:var(--site-primary); }
+nav a { color:var(--muted); text-decoration:none; margin-left:24px; font-size:13px; letter-spacing:1px; text-transform:uppercase; }
+.hero { min-height:310px; padding:66px 8vw 58px; display:flex; flex-direction:column; justify-content:center; background:linear-gradient(110deg,#090909 55%,#21090d 100%); }
+.eyebrow { color:#e04a5a; letter-spacing:4px; text-transform:uppercase; font-size:11px; font-weight:800; }
+h1 { font-family:Impact,sans-serif; font-size:clamp(64px,11vw,112px); line-height:.9; margin:16px 0; }
+.hero p { max-width:460px; color:#c8bfc0; line-height:1.7; margin:8px 0 26px; }
+.button { display:inline-flex; background:var(--site-primary); color:white; padding:12px 17px; text-decoration:none; font-weight:700; font-size:11px; letter-spacing:1px; text-transform:uppercase; width:max-content; border:0; cursor:pointer; }
+main { max-width:900px; margin:0 auto; padding:42px 24px 70px; }
+.section-title { display:flex; align-items:center; gap:14px; margin-bottom:24px; }
+.section-title h2 { font-family:Impact,sans-serif; font-size:32px; margin:0; }
+.section-title:after { content:""; height:1px; flex:1; background:var(--line); }
+.track { background:var(--surface); border:1px solid var(--line); padding:16px; display:grid; grid-template-columns:48px 1fr auto; gap:16px; align-items:center; }
+.cover { width:48px; height:48px; background:#b51224; display:grid; place-items:center; font-family:Impact,sans-serif; font-size:21px; color:white; }
+.track h3 { margin:0 0 5px; font-size:16px; }
+.track p { margin:0; color:var(--muted); font-size:12px; }
+.upload-note { margin-top:18px; color:var(--muted); font-size:13px; line-height:1.6; max-width:620px; }
+input[type=file] { display:none; }
+#fileLabel { margin-top:16px; }
+audio { width:100%; margin-top:16px; }
+footer { border-top:1px solid var(--line); padding:22px; text-align:center; color:#777; font-size:11px; }
+.track-list { display:grid; gap:10px; }
+.track-row { display:grid; grid-template-columns:36px 1fr auto; align-items:center; gap:14px; padding:14px; border:1px solid var(--line); background:#0e0e0e; }
+.track-row button { background:transparent; border:1px solid #5b1720; color:#ef5262; width:34px; height:34px; cursor:pointer; }
+.track-row button:hover,.track-row.active button { background:var(--site-primary); color:white; }
+.track-row strong { font-size:14px; }
+.track-row small { color:var(--muted); display:block; margin-top:4px; }
+.track-row .duration { color:var(--muted); font-size:11px; }
+.progress-wrap { display:flex; align-items:center; gap:10px; margin-top:15px; color:var(--muted); font-size:11px; }
+input[type=range] { flex:1; accent-color:var(--site-primary); cursor:pointer; }
+.empty { color:var(--muted); border:1px dashed #393939; padding:22px; font-size:13px; }
+@media(max-width:600px) {
+header { padding:16px 20px; }
+nav a { margin-left:12px; font-size:10px; }
+.hero { min-height:290px; padding-top:55px; }
+.track { grid-template-columns:42px 1fr; gap:12px; }
+.cover { width:42px; height:42px; }
+.track .button { grid-column:1/-1; justify-content:center; width:100%; }
+}
+</style>
+</head>
+<body>
+<div id="app">
+<header>
+<div class="logo">La<span>Me</span></div>
+<nav><a href="#music">Music</a><a href="#about">About</a></nav>
+</header>
+<section class="hero">
+<div class="eyebrow">Independent metal artist</div>
+<h1>LaMe</h1>
+<p>My music. My noise. No limits.</p>
+<a class="button" href="#music">▶ Explore music</a>
+</section>
+<main>
+<section id="music">
+<div class="section-title"><h2>RELEASES</h2></div>
+<div class="track">
+<div class="cover">L</div>
+<div><h3 id="trackName">No tracks yet</h3><p id="trackInfo">LaMe · Metal</p></div>
+<label class="button" id="fileLabel" for="audioFile">＋ Add track</label>
+</div>
+<input id="audioFile" type="file" accept="audio/*" multiple>
+<div id="trackList" class="track-list" style="margin-top:12px"><div class="empty">Your releases will appear here.</div></div>
+<audio id="player" preload="metadata"></audio>
+<div class="progress-wrap">
+<span id="currentTime">0:00</span>
+<input id="seek" type="range" min="0" max="100" value="0">
+<span id="totalTime">0:00</span>
+</div>
+<p class="upload-note">Add your own audio files to preview them here. Files stay in this browser preview and are not uploaded publicly.</p>
+</section>
+<section id="about" style="margin-top:48px">
+<div class="section-title"><h2>ABOUT</h2></div>
+<p style="color:var(--muted);line-height:1.8;max-width:650px">LaMe is an independent metal project. This is the home of my music.</p>
+</section>
+</main>
+<footer>© <span id="year"></span> LaMe · INDEPENDENT METAL</footer>
+</div>
+<script>
+const picker = document.getElementById('audioFile');
+const player = document.getElementById('player');
+const list = document.getElementById('trackList');
+const seek = document.getElementById('seek');
+let tracks = [];
+let active = -1;
+const time = value => {
+if (!Number.isFinite(value)) return '0:00';
+const m = Math.floor(value / 60);
+return m + ':' + String(Math.floor(value % 60)).padStart(2, '0');
+};
+function renderTracks() {
+list.innerHTML = '';
+if (!tracks.length) {
+list.innerHTML = '<div class="empty">Your releases will appear here.</div>';
+return;
+}
+tracks.forEach((track,index) => {
+const row = document.createElement('div');
+row.className = 'track-row' + (active === index ? ' active' : '');
+const play = document.createElement('button');
+play.textContent = active === index && !player.paused ? 'Ⅱ' : '▶';
+play.setAttribute('aria-label','Play ' + track.name);
+play.addEventListener('click',() => playTrack(index));
+const info = document.createElement('div');
+const name = document.createElement('strong');
+name.textContent = track.name;
+const artist = document.createElement('small');
+artist.textContent = 'LaMe · Metal';
+info.append(name,artist);
+const duration = document.createElement('span');
+duration.className = 'duration';
+duration.textContent = track.duration || '—';
+row.append(play,info,duration);
+list.append(row);
+});
+}
+function playTrack(index) {
+if (active === index) {
+if (player.paused) player.play();
+else player.pause();
+} else {
+active = index;
+player.src = tracks[index].url;
+player.play().catch(() => {});
+document.getElementById('trackName').textContent = tracks[index].name;
+document.getElementById('trackInfo').textContent = 'LaMe · Metal';
+}
+renderTracks();
+}
+picker.addEventListener('change',() => {
+Array.from(picker.files || []).forEach(file => {
+const url = URL.createObjectURL(file);
+tracks.push({name:file.name.replace(/\.[^.]+$/,''),url,duration:''});
+});
+renderTracks();
+if (active < 0 && tracks.length) playTrack(0);
+picker.value = '';
+});
+player.addEventListener('loadedmetadata',() => {
+if (tracks[active]) tracks[active].duration = time(player.duration);
+document.getElementById('totalTime').textContent = time(player.duration);
+renderTracks();
+});
+player.addEventListener('timeupdate',() => {
+document.getElementById('currentTime').textContent = time(player.currentTime);
+seek.value = player.duration ? player.currentTime / player.duration * 100 : 0;
+});
+player.addEventListener('play',renderTracks);
+player.addEventListener('pause',renderTracks);
+player.addEventListener('ended',() => {
+if (active + 1 < tracks.length) playTrack(active + 1);
+else renderTracks();
+});
+seek.addEventListener('input',() => {
+if (player.duration) player.currentTime = Number(seek.value) / 100 * player.duration;
+});
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
+
