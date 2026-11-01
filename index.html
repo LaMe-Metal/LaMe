@@ -6,15 +6,13 @@
   <title>LaMe</title>
   <style>
     :root {
-      --bg: #090909;
-      --panel: #121212;
-      --panel-soft: #1b1b1b;
-      --line: rgba(255,255,255,0.08);
-      --text: #f5efef;
-      --muted: #b9afaf;
-      --red: #c91428;
-      --red-2: #ef475f;
-      --shadow: rgba(0,0,0,0.38);
+      --bg: #0b0b0b;
+      --line: #2b2b2b;
+      --panel: #111111;
+      --text: #f2f2f2;
+      --muted: #a7a7a7;
+      --red: #b61125;
+      --white: #ffffff;
     }
 
     * { box-sizing: border-box; }
@@ -27,253 +25,244 @@
 
     body {
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      background:
-        radial-gradient(circle at top left, rgba(201,20,40,0.18), transparent 25%),
-        radial-gradient(circle at bottom right, rgba(239,71,95,0.12), transparent 30%),
-        var(--bg);
+      padding: 18px;
     }
 
-    .app {
-      width: min(100%, 560px);
-      min-height: 100vh;
-      padding: 18px 16px 40px;
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      background: #101010;
+      border: 1px solid var(--line);
+      padding: 14px;
     }
 
-    header {
+    .topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 8px 4px 18px;
+      gap: 12px;
+      margin-bottom: 14px;
     }
 
-    .logo {
-      font-family: Impact, Haettenschweiler, 'Arial Black', sans-serif;
-      font-size: clamp(26px, 8vw, 40px);
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-    .logo span { color: var(--red-2); }
-
-    .admin-btn {
-      border: 1px solid var(--line);
-      background: #171717;
-      color: var(--text);
-      padding: 9px 12px;
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      cursor: pointer;
-    }
-
-    .hero {
-      background: linear-gradient(180deg, rgba(22,22,22,0.95), rgba(12,12,12,1));
-      border: 1px solid var(--line);
-      box-shadow: 0 18px 34px var(--shadow);
-      overflow: hidden;
-    }
-
-    .cover-box {
-      width: 100%;
-      height: 280px;
-      background: linear-gradient(135deg, var(--red), #2a0a11);
-      display: grid;
-      place-items: center;
-      font-family: Impact, Haettenschweiler, 'Arial Black', sans-serif;
-      font-size: clamp(66px, 18vw, 110px);
-      color: white;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      transition: 0.2s ease;
-    }
-
-    .hero-meta {
-      padding: 18px 18px 20px;
-    }
-    .hero-meta small {
-      display: block;
-      color: var(--red-2);
-      font-size: 10px;
+    .brand {
+      font-weight: 700;
+      font-size: 20px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      margin-bottom: 8px;
     }
-    .hero-meta h2 {
-      margin: 0;
-      font-size: clamp(24px, 7vw, 38px);
-      line-height: 1.1;
+
+    .brand span { color: var(--red); }
+
+    .admin-btn,
+    .btn,
+    .fake-btn,
+    button {
+      background: #1b1b1b;
+      color: var(--text);
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      cursor: pointer;
+      font-size: 10px;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
     }
 
-    .controls {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin: 18px 0 8px;
+    .btn.primary,
+    .fake-btn.primary {
+      background: var(--red);
+      border-color: var(--red);
     }
 
-    .button {
+    .panel {
+      background: #0f0f0f;
+      border: 1px solid var(--line);
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .cover {
+      width: 100%;
+      height: 220px;
       display: flex;
       align-items: center;
       justify-content: center;
-      text-align: center;
-      min-height: 42px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: var(--panel-soft);
-      color: var(--text);
-      padding: 10px 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      font-size: 10px;
+      background: linear-gradient(135deg, #2a2a2a, #111111);
+      border: 1px solid var(--line);
+      font-size: 52px;
       font-weight: 700;
-      cursor: pointer;
-      transition: 0.2s ease;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
-    .button.primary {
-      background: var(--red);
-      border-color: var(--red);
-    }
-    .button:hover { opacity: 0.95; }
 
-    input[type="file"] {
-      display: none;
+    .meta {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
     }
+
+    .title-main {
+      margin-top: 6px;
+      font-size: 26px;
+      line-height: 1.1;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0;
+    }
+
+    .hidden { display: none !important; }
+
+    input[type="file"] { display: none; }
 
     .player-box {
-      margin-top: 14px;
-      background: rgba(18,18,18,0.7);
       border: 1px solid var(--line);
-      padding: 12px 12px 10px;
+      background: #121212;
+      padding: 10px;
+      margin-top: 12px;
     }
+
     audio, video {
       width: 100%;
       display: block;
-      outline: none;
-      max-height: 300px;
       background: #000;
     }
-    .hidden {
-      display: none !important;
+
+    .note {
+      margin-top: 12px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      background: #111;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
-    .track-list {
-      margin: 18px 0 0;
+    .list {
       list-style: none;
+      margin: 14px 0 0;
       padding: 0;
       display: grid;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .track-item {
+    .item {
       display: grid;
-      grid-template-columns: 42px 1fr auto auto;
+      grid-template-columns: 38px 1fr auto auto;
       align-items: center;
-      gap: 12px;
-      background: rgba(19,19,19,0.8);
+      gap: 8px;
       border: 1px solid var(--line);
-      padding: 10px 10px;
+      padding: 8px;
+      background: #0e0e0e;
     }
 
-    .play-btn {
-      width: 38px;
-      height: 38px;
-      border: 1px solid rgba(255,255,255,0.12);
+    .play {
+      width: 34px;
+      height: 34px;
       background: transparent;
       color: var(--text);
-      font-size: 14px;
+      border: 1px solid var(--line);
       cursor: pointer;
+      font-size: 12px;
     }
-    .play-btn.active {
+
+    .play.active {
       background: var(--red);
       border-color: var(--red);
     }
 
-    .track-name {
-      font-size: 15px;
+    .name {
+      font-size: 13px;
       font-weight: 700;
-      display: block;
+      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .track-meta {
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      display: block;
-      margin-top: 4px;
     }
 
-    .delete-btn {
-      border: 1px solid rgba(255,255,255,0.12);
-      background: transparent;
-      color: var(--text);
-      padding: 8px 9px;
+    .kind {
+      display: block;
+      margin-top: 2px;
       font-size: 9px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      cursor: pointer;
-      display: none;
+      color: var(--muted);
     }
-    .app.admin .delete-btn { display: block; }
+
+    .duration {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .delete {
+      display: none;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .app.admin .delete { display: inline-block; }
 
     .empty {
-      background: rgba(20,20,20,0.8);
-      border: 1px dashed rgba(255,255,255,0.12);
-      color: var(--muted);
+      padding: 18px 12px;
       text-align: center;
-      padding: 24px 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
+      background: #0f0f0f;
+      border: 1px dashed var(--line);
+      color: var(--muted);
       font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
     }
 
-    .version-badge {
+    .version {
       position: fixed;
       right: 16px;
       bottom: 16px;
-      z-index: 20;
-      background: rgba(12, 12, 12, 0.9);
-      color: var(--text);
+      background: #111;
       border: 1px solid var(--line);
-      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
-      padding: 6px 10px;
+      padding: 5px 8px;
+      color: var(--text);
       font-size: 10px;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      border-radius: 8px;
     }
 
-    @media (max-width: 420px) {
-      .controls { grid-template-columns: 1fr; }
-      .cover-box { height: 240px; }
-      .track-item { grid-template-columns: 42px 1fr auto; }
-      .delete-btn { grid-column: 2 / 4; width: 100%; }
+    @media (max-width: 520px) {
+      body { padding: 12px; }
+      .item { grid-template-columns: 34px 1fr auto; }
+      .delete { grid-column: 2 / 4; width: 100%; }
+      .brand { font-size: 16px; }
     }
   </style>
 </head>
 <body>
-  <div class="app" id="app">
-    <header>
-      <div class="logo">La<span>Me</span></div>
+  <div id="app" class="wrap">
+    <div class="topbar">
+      <div class="brand">La<span>Me</span></div>
       <button class="admin-btn" id="adminBtn">Admin</button>
-    </header>
+    </div>
 
-    <section class="hero">
-      <div class="cover-box" id="coverBox">L</div>
-      <div class="hero-meta">
-        <small>Latest release</small>
-        <h2 id="activeTitle">No track yet</h2>
-      </div>
-    </section>
+    <div class="panel">
+      <div id="cover" class="cover">L</div>
+      <div class="meta">Latest release</div>
+      <div id="activeTitle" class="title-main">No track yet</div>
+    </div>
 
-    <div class="controls hidden" id="adminControls">
-      <label class="button primary" for="mediaInput">Upload media</label>
-      <label class="button" for="coverInput">Upload cover</label>
+    <div id="adminControls" class="controls hidden">
+      <label class="fake-btn primary" for="mediaInput">Upload</label>
+      <label class="fake-btn" for="coverInput">Cover</label>
     </div>
 
     <input id="mediaInput" type="file" accept="audio/*,video/*,.dat,.mp3,.wav,.ogg,.aac,.m4a,.flac,.mp4,.m4v,.mov,.avi,.webm,.3gp,.3g2" multiple />
@@ -284,55 +273,37 @@
       <video id="videoPlayer" controls preload="metadata" class="hidden"></video>
     </div>
 
-    <ul id="trackList" class="track-list"></ul>
+    <div class="note">iPhone: .MOV / .MP4 / .M4V supported</div>
+
+    <ul id="trackList" class="list"></ul>
   </div>
 
-  <div class="version-badge" id="versionBadge">v0.1</div>
+  <div id="version" class="version">v0.3</div>
 
   <script>
     const ADMIN_PASSWORD = 'LaMeMetal2026';
     const STORAGE_KEY = 'lame_tracks_v2';
     const COVER_KEY = 'lame_cover_v2';
     const ACCESS_KEY = 'lame_admin_access';
-    const APP_VERSION = 'v0.1';
+    const APP_VERSION = 'v0.3';
 
+    const app = document.getElementById('app');
     const adminBtn = document.getElementById('adminBtn');
     const adminControls = document.getElementById('adminControls');
-    const app = document.getElementById('app');
     const audioPlayer = document.getElementById('audioPlayer');
     const videoPlayer = document.getElementById('videoPlayer');
-    const trackList = document.getElementById('trackList');
-    const coverBox = document.getElementById('coverBox');
-    const activeTitle = document.getElementById('activeTitle');
     const mediaInput = document.getElementById('mediaInput');
     const coverInput = document.getElementById('coverInput');
-    const versionBadge = document.getElementById('versionBadge');
+    const trackList = document.getElementById('trackList');
+    const coverBox = document.getElementById('cover');
+    const activeTitle = document.getElementById('activeTitle');
+    const version = document.getElementById('version');
 
     let tracks = [];
     let activeIndex = -1;
 
-    function setVersionBadge() {
-      if (versionBadge) versionBadge.textContent = APP_VERSION;
-    }
-
-    function isAudioFile(file) {
-      const name = (file && file.name) ? file.name.toLowerCase() : '';
-      return file && (
-        file.type.startsWith('audio/') ||
-        /\.(mp3|wav|ogg|aac|m4a|flac|dat)$/i.test(name)
-      );
-    }
-
-    function isVideoFile(file) {
-      const name = (file && file.name) ? file.name.toLowerCase() : '';
-      return file && (
-        file.type.startsWith('video/') ||
-        /\.(mp4|m4v|mov|avi|webm|3gp|3g2|mpeg|ogv)$/i.test(name)
-      );
-    }
-
-    function isPlayableMediaFile(file) {
-      return isAudioFile(file) || isVideoFile(file);
+    function setVersion() {
+      version.textContent = APP_VERSION;
     }
 
     function hasAccess() {
@@ -340,14 +311,14 @@
     }
 
     function unlockAdmin() {
-      const password = prompt('Zadej heslo pro upload a mazání médií:');
+      const password = prompt('Password:');
       if (password === ADMIN_PASSWORD) {
         localStorage.setItem(ACCESS_KEY, 'allowed');
         app.classList.add('admin');
         adminControls.classList.remove('hidden');
         return true;
       }
-      alert('Přístup zamítnut.');
+      alert('Access denied.');
       return false;
     }
 
@@ -369,7 +340,7 @@
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed)) tracks = parsed;
       } catch (e) {
-        console.error('Error loading tracks:', e);
+        console.error('Load tracks error:', e);
       }
     }
 
@@ -377,12 +348,6 @@
       if (!dataUrl) return;
       coverBox.style.backgroundImage = `url('${dataUrl}')`;
       coverBox.textContent = '';
-    }
-
-    function clearCover() {
-      coverBox.style.backgroundImage = 'linear-gradient(135deg, var(--red), #2a0a11)';
-      coverBox.textContent = 'L';
-      localStorage.removeItem(COVER_KEY);
     }
 
     function loadCover() {
@@ -399,66 +364,80 @@
       });
     }
 
-    function updateMediaPlayer(track) {
-      const isVideo = track && track.kind === 'video';
+    function isAudioFile(file) {
+      const name = (file && file.name) ? file.name.toLowerCase() : '';
+      return file && (
+        file.type.startsWith('audio/') ||
+        /\.(mp3|wav|ogg|aac|m4a|flac|dat)$/i.test(name)
+      );
+    }
 
+    function isVideoFile(file) {
+      const name = (file && file.name) ? file.name.toLowerCase() : '';
+      return file && (
+        file.type.startsWith('video/') ||
+        /\.(mp4|m4v|mov|avi|webm|3gp|3g2|mpeg|ogv)$/i.test(name)
+      );
+    }
+
+    function isPlayable(file) {
+      return isAudioFile(file) || isVideoFile(file);
+    }
+
+    function updateMediaSource(track) {
       audioPlayer.pause();
       videoPlayer.pause();
       audioPlayer.removeAttribute('src');
       videoPlayer.removeAttribute('src');
-      audioPlayer.classList.toggle('hidden', isVideo);
-      videoPlayer.classList.toggle('hidden', !isVideo);
+      audioPlayer.classList.toggle('hidden', !!track && track.kind === 'video');
+      videoPlayer.classList.toggle('hidden', !track || track.kind !== 'video');
 
       if (!track) return;
-
-      if (isVideo) {
-        videoPlayer.src = track.url;
-      } else {
-        audioPlayer.src = track.url;
-      }
+      if (track.kind === 'video') videoPlayer.src = track.url;
+      else audioPlayer.src = track.url;
     }
 
     function renderTracks() {
       trackList.innerHTML = '';
 
       if (!tracks.length) {
-        trackList.innerHTML = '<li class="empty">Žádné skladby</li>';
+        trackList.innerHTML = '<li class="empty">No tracks</li>';
         return;
       }
 
       tracks.forEach((track, index) => {
         const li = document.createElement('li');
-        li.className = 'track-item';
+        li.className = 'item';
 
         const playBtn = document.createElement('button');
-        playBtn.className = 'play-btn' + (activeIndex === index ? ' active' : '');
-        const isCurrentPlaying = activeIndex === index && ((track.kind === 'video' && !videoPlayer.paused) || (track.kind !== 'video' && !audioPlayer.paused));
-        playBtn.textContent = isCurrentPlaying ? '||' : '▶';
+        playBtn.className = 'play' + (activeIndex === index ? ' active' : '');
+        const isPlaying = activeIndex === index && ((track.kind === 'video' && !videoPlayer.paused) || (track.kind !== 'video' && !audioPlayer.paused));
+        playBtn.textContent = isPlaying ? '||' : '▶';
         playBtn.addEventListener('click', () => playTrack(index));
 
-        const info = document.createElement('div');
-        const name = document.createElement('span');
-        name.className = 'track-name';
+        const textWrap = document.createElement('div');
+        const name = document.createElement('div');
+        name.className = 'name';
         name.textContent = track.name;
-        const meta = document.createElement('span');
-        meta.className = 'track-meta';
-        meta.textContent = track.kind || 'audio';
-        info.appendChild(name);
-        info.appendChild(meta);
+        const kind = document.createElement('span');
+        kind.className = 'kind';
+        kind.textContent = track.kind || 'audio';
+        textWrap.appendChild(name);
+        textWrap.appendChild(kind);
 
-        const duration = document.createElement('span');
-        duration.className = 'track-meta';
+        const duration = document.createElement('div');
+        duration.className = 'duration';
         duration.textContent = track.duration || '—';
 
-        const deleteBtn = document.createElement('button');
-        deleteBtn.className = 'delete-btn';
-        deleteBtn.textContent = 'Delete';
-        deleteBtn.addEventListener('click', () => deleteTrack(index));
+        const del = document.createElement('button');
+        del.className = 'delete';
+        del.textContent = 'Delete';
+        del.addEventListener('click', () => deleteTrack(index));
 
         li.appendChild(playBtn);
-        li.appendChild(info);
+        li.appendChild(textWrap);
         li.appendChild(duration);
-        li.appendChild(deleteBtn);
+        li.appendChild(del);
         trackList.appendChild(li);
       });
     }
@@ -478,12 +457,9 @@
       } else {
         activeIndex = index;
         activeTitle.textContent = track.name;
-        updateMediaPlayer(track);
-        if (track.kind === 'video') {
-          videoPlayer.play();
-        } else {
-          audioPlayer.play();
-        }
+        updateMediaSource(track);
+        if (track.kind === 'video') videoPlayer.play();
+        else audioPlayer.play();
       }
 
       renderTracks();
@@ -500,7 +476,7 @@
       saveTracks();
       renderTracks();
 
-      if (tracks.length === 0) {
+      if (!tracks.length) {
         activeTitle.textContent = 'No track yet';
         audioPlayer.pause();
         videoPlayer.pause();
@@ -512,7 +488,7 @@
       if (activeIndex >= 0) {
         const chosen = tracks[activeIndex];
         activeTitle.textContent = chosen.name;
-        updateMediaPlayer(chosen);
+        updateMediaSource(chosen);
       }
     }
 
@@ -522,16 +498,16 @@
         if (!ok) return;
       }
 
-      const valid = Array.from(files).filter(isPlayableMediaFile);
+      const valid = Array.from(files).filter(isPlayable);
       if (!valid.length) {
-        alert('Pouze audio nebo video soubory (.mp3, .wav, .ogg, .aac, .m4a, .flac, .dat, .mp4, .m4v, .mov, .avi, .webm, .3gp).');
+        alert('Only audio/video files are allowed.');
         return;
       }
 
       for (const file of valid) {
         const maxSize = isVideoFile(file) ? 50 * 1024 * 1024 : 25 * 1024 * 1024;
         if (file.size > maxSize) {
-          alert('Soubor je moc velký. Zvol menší mediální soubor.');
+          alert('File is too large.');
           continue;
         }
 
@@ -540,17 +516,18 @@
           name: file.name.replace(/\.[^.]+$/, ''),
           url: dataUrl,
           kind: isVideoFile(file) ? 'video' : 'audio',
-          type: isVideoFile(file) ? 'video' : 'audio',
           duration: '—'
         });
       }
 
       saveTracks();
       renderTracks();
+
       if (tracks.length && activeIndex < 0) {
         activeIndex = 0;
         playTrack(0);
       }
+
       mediaInput.value = '';
     }
 
@@ -561,12 +538,12 @@
       }
 
       if (!file || !file.type.startsWith('image/')) {
-        alert('Pouze obrázek pro obal.');
+        alert('Only image file allowed.');
         return;
       }
 
       if (file.size > 2 * 1024 * 1024) {
-        alert('Obrázek je moc velký. Zvol menší soubor.');
+        alert('Image is too large.');
         return;
       }
 
@@ -576,11 +553,19 @@
       coverInput.value = '';
     }
 
-    function bindMediaDuration(player, track) {
+    function formatDuration(seconds) {
+      if (!isFinite(seconds)) return '—';
+      const total = Math.floor(seconds);
+      const m = Math.floor(total / 60);
+      const s = total % 60;
+      return `${m}:${String(s).padStart(2, '0')}`;
+    }
+
+    function bindDuration(player, track) {
       if (!track) return;
-      const seconds = Number.isFinite(player.duration) ? player.duration : 0;
-      if (seconds > 0) {
-        track.duration = formatDuration(seconds);
+      const sec = Number.isFinite(player.duration) ? player.duration : 0;
+      if (sec > 0) {
+        track.duration = formatDuration(sec);
         saveTracks();
         renderTracks();
       }
@@ -608,26 +593,18 @@
       audioPlayer.addEventListener('loadedmetadata', () => {
         const track = tracks[activeIndex];
         if (!track || track.kind !== 'audio') return;
-        bindMediaDuration(audioPlayer, track);
+        bindDuration(audioPlayer, track);
       });
 
       videoPlayer.addEventListener('loadedmetadata', () => {
         const track = tracks[activeIndex];
         if (!track || track.kind !== 'video') return;
-        bindMediaDuration(videoPlayer, track);
+        bindDuration(videoPlayer, track);
       });
     }
 
-    function formatDuration(seconds) {
-      if (!isFinite(seconds)) return '—';
-      const total = Math.floor(seconds);
-      const m = Math.floor(total / 60);
-      const s = total % 60;
-      return `${m}:${String(s).padStart(2, '0')}`;
-    }
-
     function init() {
-      setVersionBadge();
+      setVersion();
       loadTracks();
       loadCover();
       setAdminState();
