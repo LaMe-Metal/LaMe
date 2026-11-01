@@ -259,7 +259,7 @@
       <label class="button" for="coverInput">Upload cover</label>
     </div>
 
-    <input id="audioInput" type="file" accept="audio/*" multiple />
+    <input id="audioInput" type="file" accept="audio/*,.m4a,audio/mp4,audio/m4a" multiple />
     <input id="coverInput" type="file" accept="image/*" />
 
     <div class="player-box">
@@ -287,6 +287,14 @@
 
     let tracks = [];
     let activeIndex = -1;
+
+    function isAudioFile(file) {
+      const name = (file && file.name) ? file.name.toLowerCase() : '';
+      return file && (
+        file.type.startsWith('audio/') ||
+        /\.(mp3|wav|ogg|aac|m4a|flac)$/i.test(name)
+      );
+    }
 
     function hasAccess() {
       return localStorage.getItem(ACCESS_KEY) === 'allowed';
@@ -443,9 +451,9 @@
         if (!ok) return;
       }
 
-      const valid = Array.from(files).filter(file => file.type.startsWith('audio/'));
+      const valid = Array.from(files).filter(isAudioFile);
       if (!valid.length) {
-        alert('Pouze audio soubory.');
+        alert('Pouze audio soubory (.mp3, .wav, .ogg, .aac, .m4a).');
         return;
       }
 
