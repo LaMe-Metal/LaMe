@@ -6,132 +6,129 @@
   <title>LaMe</title>
   <style>
     :root {
-      --bg: #070707;
-      --bg-2: #0d0d0d;
-      --panel: rgba(16,16,16,0.96);
-      --panel-2: rgba(20,20,20,0.98);
+      --bg: #050505;
+      --bg-2: #0e0e0e;
+      --panel: rgba(18, 18, 18, 0.78);
+      --panel-strong: rgba(12, 12, 12, 0.96);
       --line: rgba(255,255,255,0.08);
-      --line-strong: rgba(255,255,255,0.16);
+      --line-strong: rgba(255,255,255,0.18);
       --text: #f4f4f4;
       --muted: #b8b8b8;
       --red-1: #120507;
-      --red-2: #2a070d;
+      --red-2: #24080d;
       --red-3: #4d0d17;
-      --red-4: #7f1321;
+      --red-4: #7f1421;
       --red-5: #b10d1d;
-      --red-6: #d62a3c;
+      --red-6: #d92d42;
       --white: #ffffff;
-      --shadow: rgba(0,0,0,0.72);
+      --shadow: rgba(0,0,0,0.75);
+      --glow: rgba(217,45,66,0.2);
     }
 
     * { box-sizing: border-box; }
 
-    html, body {
-      margin: 0;
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at 20% 0%, rgba(177,13,30,0.18), transparent 24%),
-        radial-gradient(circle at 80% 15%, rgba(214,42,60,0.10), transparent 18%),
-        linear-gradient(180deg, #070707 0%, #0a0a0a 100%);
-      color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 0%, rgba(177,13,30,0.23), transparent 28%),
+        radial-gradient(circle at 80% 10%, rgba(217,45,66,0.11), transparent 26%),
+        linear-gradient(180deg, #040404 0%, #0a0a0a 100%);
+      overflow-x: hidden;
     }
 
-    .shell {
-      width: min(100%, 840px);
-      background: linear-gradient(180deg, rgba(17,17,17,0.96), rgba(8,8,8,0.98));
-      border: 1px solid var(--line);
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,0.02),
-        0 28px 60px var(--shadow),
-        inset 0 0 24px rgba(177,13,30,0.04);
-      padding: clamp(18px, 3vw, 30px);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .shell::before,
-    .shell::after {
+    body::before {
       content: "";
-      position: absolute;
+      position: fixed;
       inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent 20%, transparent 80%, rgba(255,255,255,0.02));
       pointer-events: none;
     }
 
-    .shell::before {
-      background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(177,13,30,0.09) 18%,
-        transparent 36%,
-        transparent 66%,
-        rgba(177,13,30,0.09) 82%,
-        transparent 100%
-      );
-    }
-
-    .shell::after {
-      inset: 12px;
-      border: 1px solid rgba(255,255,255,0.04);
-    }
-
-    .brand-wrap {
+    .page {
+      width: min(100%, 980px);
+      margin: 0 auto;
+      padding: 28px 18px 60px;
       position: relative;
       z-index: 1;
+    }
+
+    .hero {
+      padding: 12px 0 18px;
+      position: relative;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+    }
+
+    .brand-row {
       display: flex;
-      align-items: end;
+      align-items: baseline;
       justify-content: space-between;
-      gap: 14px;
-      padding-bottom: 18px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid var(--line);
+      gap: 12px;
+      padding-bottom: 20px;
     }
 
     .brand {
       margin: 0;
-      font-size: clamp(30px, 5vw, 54px);
-      letter-spacing: 0.28em;
+      font-size: clamp(30px, 7vw, 72px);
+      line-height: 0.92;
+      letter-spacing: 0.26em;
       text-transform: uppercase;
       font-weight: 900;
-      line-height: 0.9;
       color: var(--text);
     }
 
-    .brand span {
+    .brand .accent {
       color: var(--red-6);
-      text-shadow: 0 0 18px rgba(214,42,60,0.18);
+      text-shadow: 0 0 22px rgba(217,45,66,0.26);
     }
 
-    .tag {
+    .badge {
       color: var(--muted);
       letter-spacing: 0.18em;
       text-transform: uppercase;
       font-size: 9px;
-      opacity: 0.8;
-      white-space: nowrap;
+      opacity: 0.82;
     }
 
-    .stack {
+    .panel {
       position: relative;
-      z-index: 1;
-      display: grid;
-      gap: 18px;
-    }
-
-    .card {
-      background: linear-gradient(180deg, rgba(18,18,18,0.97), rgba(10,10,10,0.97));
+      background: linear-gradient(180deg, rgba(20,20,20,0.85), rgba(10,10,10,0.92));
       border: 1px solid var(--line);
-      padding: 18px 16px 16px;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.015);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 22px 46px rgba(0,0,0,0.42), inset 0 0 0 1px rgba(255,255,255,0.02);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255,255,255,0.02), transparent 24%, transparent 76%, rgba(177,13,30,0.08));
+      pointer-events: none;
+    }
+
+    .release-card {
+      padding: 18px;
+    }
+
+    .release-top,
     .card-head {
       display: flex;
       align-items: center;
@@ -142,135 +139,235 @@
       border-bottom: 1px solid var(--line);
     }
 
-    .title {
+    .title,
+    .card-title {
       margin: 0;
-      font-size: clamp(15px, 2vw, 24px);
       letter-spacing: 0.18em;
       text-transform: uppercase;
       font-weight: 800;
       color: var(--text);
     }
 
-    .label {
+    .title {
+      font-size: clamp(18px, 3vw, 30px);
+    }
+
+    .card-title {
+      font-size: clamp(16px, 2.6vw, 24px);
+    }
+
+    .small-tag {
       color: var(--muted);
       letter-spacing: 0.18em;
       text-transform: uppercase;
       font-size: 9px;
-      opacity: 0.85;
+      opacity: 0.8;
     }
 
-    .release-wrap {
+    .release-main {
       display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: 18px;
+      grid-template-columns: 210px minmax(0, 1fr);
+      gap: 22px;
       align-items: center;
     }
 
+    .cover-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cover-wrap::before {
+      content: "";
+      position: absolute;
+      inset: -8px;
+      background: radial-gradient(circle, var(--glow), transparent 60%);
+      filter: blur(12px);
+      z-index: 0;
+    }
+
     .cover {
+      position: relative;
+      z-index: 1;
       width: 100%;
       aspect-ratio: 1;
       display: block;
       object-fit: cover;
-      border: 1px solid var(--line-strong);
-      background: #111;
-      box-shadow: 0 18px 30px rgba(0,0,0,0.35), inset 0 0 20px rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.09);
+      background: #171717;
+      box-shadow: 0 20px 34px rgba(0,0,0,0.48), inset 0 0 26px rgba(255,255,255,0.02);
+      transition: transform 0.45s cubic-bezier(.22,1,.36,1), box-shadow 0.45s ease, filter 0.45s ease;
     }
 
-    .button-grid {
+    .cover-wrap:hover .cover {
+      transform: scale(1.02) rotate(-1deg);
+      filter: saturate(1.15) contrast(1.08);
+      box-shadow: 0 28px 50px rgba(0,0,0,0.6), 0 0 32px rgba(177,13,30,0.12);
+    }
+
+    .release-actions {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
+      width: 100%;
     }
 
-    .button-grid a {
+    .button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       min-height: 56px;
-      padding: 12px 16px;
+      padding: 12px 18px;
+      border-radius: 12px;
       text-decoration: none;
       text-transform: uppercase;
       letter-spacing: 0.18em;
       font-size: 10px;
       font-weight: 800;
-      transition: transform 0.18s ease, filter 0.18s ease, border-color 0.18s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, filter 0.2s ease;
+      user-select: none;
     }
 
-    .primary {
+    .button.primary {
       background: linear-gradient(180deg, var(--red-5), var(--red-4));
-      border: 1px solid rgba(255,255,255,0.08);
       color: var(--white);
-      box-shadow: 0 12px 22px rgba(177,13,30,0.24);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 14px 26px rgba(177,13,30,0.24), 0 0 0 1px rgba(255,255,255,0.02);
     }
 
-    .secondary {
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border: 1px solid var(--line-strong);
+    .button.secondary {
+      background: rgba(255,255,255,0.02);
       color: var(--text);
+      border: 1px solid var(--line-strong);
     }
 
-    .button-grid a:hover {
-      transform: translateY(-1px);
+    .button:hover {
+      transform: translateY(-2px);
       filter: brightness(1.08);
+      box-shadow: 0 18px 30px rgba(0,0,0,0.22);
     }
 
-    @media (max-width: 620px) {
-      .release-wrap {
+    .stack {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .card {
+      padding: 18px 16px;
+    }
+
+    .accounts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      filter: blur(10px);
+      transition: opacity 0.8s ease, transform 0.8s cubic-bezier(.22,1,.36,1), filter 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    @media (max-width: 720px) {
+      .release-main {
         grid-template-columns: 1fr;
       }
 
-      .button-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .brand-wrap {
+      .brand-row {
         flex-direction: column;
         align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .page {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .release-actions,
+      .accounts-grid {
+        grid-template-columns: 1fr;
       }
 
       .brand {
         letter-spacing: 0.18em;
       }
+
+      .title {
+        letter-spacing: 0.12em;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="shell">
-    <div class="brand-wrap">
-      <h1 class="brand">La<span>Me</span></h1>
-      <div class="tag">official</div>
-    </div>
+  <div class="page">
+    <header class="hero reveal">
+      <div class="brand-row">
+        <h1 class="brand">La<span class="accent">Me</span></h1>
+        <div class="badge">official</div>
+      </div>
+    </header>
 
-    <div class="stack">
-      <section class="card">
-        <div class="card-head">
+    <main class="stack">
+      <section class="panel release-card reveal">
+        <div class="release-top">
           <h2 class="title">Suppressed Scream</h2>
-          <div class="label">single</div>
+          <div class="small-tag">single</div>
         </div>
 
-        <div class="release-wrap">
-          <img class="cover" src="./ac.png" alt="Suppressed Scream cover art" />
+        <div class="release-main">
+          <div class="cover-wrap">
+            <img class="cover" src="./ac.png" alt="Suppressed Scream cover art" />
+          </div>
 
-          <div class="button-grid">
-            <a class="primary" href="https://youtu.be/mz3qG9PVwJc?si=T6bikvwP0WClXUt5" target="_blank" rel="noreferrer">YouTube</a>
-            <a class="secondary" href="https://www.bandlab.com/post/385c45b9-63f3-440d-a55e-360ce27cd58b" target="_blank" rel="noreferrer">BandLab</a>
+          <div class="release-actions">
+            <a class="button primary" href="https://youtu.be/mz3qG9PVwJc?si=T6bikvwP0WClXUt5" target="_blank" rel="noreferrer">YouTube</a>
+            <a class="button secondary" href="https://www.bandlab.com/post/385c45b9-63f3-440d-a55e-360ce27cd58b" target="_blank" rel="noreferrer">BandLab</a>
           </div>
         </div>
       </section>
 
-      <section class="card">
+      <section class="panel card reveal">
         <div class="card-head">
-          <h2 class="title">Accounts</h2>
-          <div class="label">follow</div>
+          <h2 class="card-title">Accounts</h2>
+          <div class="small-tag">follow</div>
         </div>
 
-        <div class="button-grid">
-          <a class="primary" href="https://www.youtube.com/@LaMe_is_trash" target="_blank" rel="noreferrer">YouTube</a>
-          <a class="secondary" href="https://www.instagram.com/lame_is_trash?cplk=eDV3OGV2b3YwOWNj&utm_source=qr" target="_blank" rel="noreferrer">Instagram</a>
-          <a class="secondary" href="https://www.bandlab.com/lame_official" target="_blank" rel="noreferrer">BandLab</a>
+        <div class="accounts-grid">
+          <a class="button primary" href="https://www.youtube.com/@LaMe_is_trash" target="_blank" rel="noreferrer">YouTube</a>
+          <a class="button secondary" href="https://www.instagram.com/lame_is_trash?cplk=eDV3OGV2b3YwOWNj&utm_source=qr" target="_blank" rel="noreferrer">Instagram</a>
+          <a class="button secondary" href="https://www.bandlab.com/lame_official" target="_blank" rel="noreferrer">BandLab</a>
         </div>
       </section>
-    </div>
-  </main>
+    </main>
+  </div>
+
+  <script>
+    const revealItems = document.querySelectorAll('.reveal');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.18,
+      rootMargin: '0px 0px -30px 0px'
+    });
+
+    revealItems.forEach((item) => observer.observe(item));
+  </script>
 </body>
 </html>
