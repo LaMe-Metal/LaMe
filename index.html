@@ -360,10 +360,22 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
     }
+    .track-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
     .duration {
       color: var(--muted);
       font-size: 11px;
       letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .plays {
+      color: var(--red-soft);
+      font-size: 10px;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
     }
 
@@ -540,7 +552,7 @@
               <span id="totalTime">0:00</span>
             </div>
 
-            <p class="upload-note">Add your own audio files to preview them here. Files stay saved in this browser and remain after refresh.</p>
+            <p class="upload-note">Anyone can listen here. Uploads are protected by admin password, so only you can add tracks.</p>
           </div>
 
           <aside class="info-box">
@@ -657,6 +669,47 @@
       return m + ':' + String(Math.floor(value % 60)).padStart(2, '0');
     };
 
+    function getTrackSlug(name) {
+      return (name || 'track').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'track';
+    }
+
+    function getLocalListenCount(track) {
+      const key = 'lame_listen_' + getTrackSlug(track.name);
+      return Number(localStorage.getItem(key) || 0);
+    }
+
+    function setLocalListenCount(track, value) {
+      const key = 'lame_listen_' + getTrackSlug(track.name);
+      localStorage.setItem(key, String(value));
+      track.plays = value;
+    }
+
+    async function incrementListenCounter(track) {
+      if (!track || !track.name) return;
+      const slug = getTrackSlug(track.name);
+      const localKey = 'lame_listen_' + slug;
+      const previous = Number(localStorage.getItem(localKey) || 0);
+      const next = previous + 1;
+      localStorage.setItem(localKey, String(next));
+      track.plays = next;
+
+      try {
+        const url = 'https://api.countapi.xyz/hit/lamemusic/' + encodeURIComponent(slug);
+        const response = await fetch(url, { method: 'GET' });
+        if (response.ok) {
+          const data = await response.json();
+          if (data && Number.isFinite(data.value)) {
+            track.plays = data.value;
+            localStorage.setItem(localKey, String(data.value));
+          }
+        }
+      } catch (error) {
+        console.warn('Counter unavailable:', error);
+      }
+
+      renderTracks();
+    }
+
     function renderTracks() {
       list.innerHTML = '';
       if (!tracks.length) {
@@ -680,11 +733,20 @@
         artist.textContent = 'LaMe · Metal';
         info.append(name, artist);
 
+        const meta = document.createElement('div');
+        meta.className = 'track-meta';
+
         const duration = document.createElement('span');
         duration.className = 'duration';
         duration.textContent = track.duration || '—';
 
-        row.append(play, info, duration);
+        const plays = document.createElement('span');
+        const playCount = Number(track.plays || getLocalListenCount(track) || 0);
+        plays.className = 'plays';
+        plays.textContent = playCount + ' plays';
+
+        meta.append(duration, plays);
+        row.append(play, info, meta);
         list.append(row);
       });
     }
@@ -697,15 +759,29 @@
     }
 
     function playTrack(index) {
+      if (!tracks[index]) return;
+
+      const track = tracks[index];
+      const shouldCount = active !== index || player.paused;
+
       if (active === index) {
         if (player.paused) player.play();
         else player.pause();
       } else {
         active = index;
-        player.src = tracks[index].url;
+        player.src = track.url;
         player.play().catch(() => {});
         setTrackMeta(index);
       }
+
+      if (shouldCount && !track.lastPlayedAt) {
+        incrementListenCounter(track);
+        track.lastPlayedAt = Date.now();
+      } else if (shouldCount && Date.now() - (track.lastPlayedAt || 0) > 15000) {
+        incrementListenCounter(track);
+        track.lastPlayedAt = Date.now();
+      }
+
       renderTracks();
     }
 
@@ -737,7 +813,12 @@
       for (const file of files) {
         const dataUrl = await readAsDataUrl(file);
         const name = file.name.replace(/\.[^.]+$/, '');
-        tracks.push({ name, url: dataUrl, duration: '' });
+        tracks.push({
+          name,
+          url: dataUrl,
+          duration: '',
+          plays: Number(localStorage.getItem('lame_listen_' + getTrackSlug(name)) || 0)
+        });
       }
 
       saveTracks();
