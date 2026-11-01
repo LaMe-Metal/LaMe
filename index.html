@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>LaMe</title>
   <style>
     :root {
@@ -28,9 +28,14 @@
       --glass: rgba(255,255,255,0.02);
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
@@ -42,6 +47,7 @@
         radial-gradient(circle at 82% 10%, rgba(217,45,66,0.12), transparent 24%),
         linear-gradient(180deg, #040404 0%, #0a0a0a 100%);
       overflow-x: hidden;
+      touch-action: manipulation;
     }
 
     body::before {
@@ -64,7 +70,7 @@
     .page {
       width: min(100%, 980px);
       margin: 0 auto;
-      padding: 28px 18px 80px;
+      padding: 28px 18px 90px;
       position: relative;
       z-index: 1;
     }
@@ -217,48 +223,17 @@
         inset 0 0 26px rgba(255,255,255,0.02),
         0 0 26px rgba(217,45,66,0.15);
       cursor: pointer;
-      transition: transform 0.45s cubic-bezier(.22,1,.36,1), box-shadow 0.45s ease, filter 0.45s ease, border-color 0.45s ease;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease, border-color 0.25s ease;
       transform-style: preserve-3d;
       will-change: transform, filter;
     }
 
     .cover-wrap:hover .cover {
-      transform: scale(1.03) rotate(-1deg) translateZ(10px);
-      filter: saturate(1.13) contrast(1.1) brightness(1.06);
+      transform: scale(1.02);
+      filter: saturate(1.1) contrast(1.05) brightness(1.04);
       box-shadow:
-        0 28px 50px rgba(0,0,0,0.6),
-        0 0 32px rgba(177,13,30,0.18),
-        0 0 48px rgba(217,45,66,0.12);
-    }
-
-    .cover.bump {
-      animation: coverPop 0.9s cubic-bezier(.22, 1, .36, 1);
-      border-color: rgba(255,255,255,0.14);
-      box-shadow:
-        0 28px 42px rgba(0,0,0,0.55),
-        0 0 28px rgba(217,45,66,0.26),
-        0 0 46px rgba(217,45,66,0.16);
-    }
-
-    @keyframes coverPop {
-      0% {
-        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
-      }
-      12% {
-        transform: translate3d(-8px, 10px, 0) scale(1.03) rotate(-4deg);
-      }
-      26% {
-        transform: translate3d(12px, -12px, 0) scale(1.06) rotate(4deg);
-      }
-      46% {
-        transform: translate3d(-6px, 8px, 0) scale(1.02) rotate(-2deg);
-      }
-      70% {
-        transform: translate3d(4px, -4px, 0) scale(1.01) rotate(1deg);
-      }
-      100% {
-        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
-      }
+        0 24px 40px rgba(0,0,0,0.5),
+        0 0 24px rgba(217,45,66,0.12);
     }
 
     .cover-hint {
@@ -269,16 +244,9 @@
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--muted);
-      opacity: 0;
-      transform: translateY(8px);
-      transition: opacity 0.25s ease, transform 0.25s ease;
+      opacity: 0.7;
       pointer-events: none;
       z-index: 2;
-    }
-
-    .cover-wrap:hover .cover-hint {
-      opacity: 1;
-      transform: translateY(0);
     }
 
     .release-actions {
@@ -347,72 +315,43 @@
       filter: blur(0);
     }
 
-    .scroll-ghost {
+    .version-chip {
       position: fixed;
-      right: 18px;
-      bottom: 18px;
-      width: 116px;
-      height: 62px;
-      z-index: 25;
-      pointer-events: none;
-      transform: translate3d(0, 0, 0);
-      transition: opacity 0.2s ease, transform 0.2s ease, filter 0.2s ease;
-    }
-
-    .scroll-ghost::before,
-    .scroll-ghost::after,
-    .scroll-ghost .ghost {
-      position: absolute;
-      inset: 0;
-      border-radius: 14px;
-      content: "";
-    }
-
-    .scroll-ghost::before {
-      background: rgba(12, 12, 12, 0.9);
-      border: 1px solid rgba(255,255,255,0.10);
-      box-shadow: 0 12px 28px rgba(0,0,0,0.35), 0 0 20px rgba(217,45,66,0.12);
-      transform: translate(-14px, 12px) scale(1.08);
-      opacity: 0.28;
-      filter: blur(14px);
-    }
-
-    .scroll-ghost::after {
-      background: rgba(18, 18, 18, 0.8);
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 10px 24px rgba(0,0,0,0.28);
-      transform: translate(-8px, 6px) scale(1.04);
-      opacity: 0.48;
-      filter: blur(8px);
-    }
-
-    .scroll-ghost .ghost {
-      background: rgba(16, 16, 16, 0.94);
-      border: 1px solid rgba(255,255,255,0.14);
-      box-shadow:
-        inset 0 0 12px rgba(255,255,255,0.04),
-        0 0 22px rgba(217,45,66,0.1),
-        0 12px 18px rgba(0,0,0,0.26);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      display: flex;
+      right: max(12px, env(safe-area-inset-right));
+      bottom: max(12px, env(safe-area-inset-bottom));
+      z-index: 50;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      text-align: center;
+      min-width: 74px;
+      height: 30px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(10, 10, 10, 0.92);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow:
+        inset 0 0 10px rgba(255,255,255,0.03),
+        0 8px 18px rgba(0,0,0,0.28),
+        0 0 16px rgba(217,45,66,0.08);
       color: var(--text);
-      font-size: 12px;
-      letter-spacing: 0.20em;
+      font-size: 10px;
+      line-height: 1;
+      letter-spacing: 0.16em;
       text-transform: lowercase;
       font-weight: 800;
-      padding: 0 12px;
-      min-width: 100px;
+      user-select: none;
+      pointer-events: none;
     }
 
     @media (max-width: 720px) {
       .release-main { grid-template-columns: 1fr; }
       .brand-row { flex-direction: column; align-items: flex-start; }
-      .scroll-ghost { width: 100px; height: 56px; right: 12px; bottom: 12px; }
-      .scroll-ghost .ghost { font-size: 10px; letter-spacing: 0.18em; min-width: 88px; }
+      .version-chip {
+        min-width: 68px;
+        height: 28px;
+        font-size: 9px;
+        letter-spacing: 0.14em;
+      }
     }
 
     @media (max-width: 540px) {
@@ -420,15 +359,20 @@
       .release-actions, .accounts-grid { grid-template-columns: 1fr; }
       .brand { letter-spacing: 0.18em; }
       .title { letter-spacing: 0.12em; }
-      .scroll-ghost { width: 92px; height: 52px; }
-      .scroll-ghost .ghost { min-width: 80px; padding: 0 10px; }
+      .version-chip {
+        right: max(10px, env(safe-area-inset-right));
+        bottom: max(10px, env(safe-area-inset-bottom));
+        min-width: 62px;
+        height: 26px;
+        padding: 0 10px;
+        font-size: 8px;
+        letter-spacing: 0.14em;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="scroll-ghost" aria-label="version window">
-    <div class="ghost">v0.1</div>
-  </div>
+  <div id="version-badge" class="version-chip" aria-live="polite">v0.1</div>
 
   <div class="page">
     <header class="hero reveal">
@@ -483,42 +427,22 @@
         }
       });
     }, { threshold: 0.18, rootMargin: '0px 0px -30px 0px' });
+
     revealItems.forEach((item) => observer.observe(item));
 
-    const cover = document.querySelector('.cover');
-    if (cover) {
-      cover.addEventListener('click', () => {
-        cover.classList.remove('bump');
-        void cover.offsetWidth;
-        cover.classList.add('bump');
+    const versionBadge = document.getElementById('version-badge');
+    const currentVersion = 'v0.1';
 
-        clearTimeout(cover._pressTimer);
-        cover._pressTimer = setTimeout(() => {
-          cover.classList.remove('bump');
-        }, 900);
-      });
+    function setVersion(version) {
+      if (versionBadge) versionBadge.textContent = version;
     }
 
-    const ghost = document.querySelector('.scroll-ghost');
-    let lastScroll = window.scrollY;
+    setVersion(currentVersion);
 
-    if (ghost) {
-      const updateGhost = () => {
-        const current = window.scrollY;
-        const diff = Math.abs(current - lastScroll);
-        const offsetX = Math.min(26, diff * 0.18);
-        const offsetY = Math.min(18, diff * 0.14);
-
-        ghost.style.transform = `translate(${offsetX}px, ${Math.max(0, 8 - offsetY)}px)`;
-        ghost.style.filter = `blur(${Math.min(4.5, diff * 0.02)}px)`;
-        ghost.style.opacity = String(Math.min(1, 0.45 + diff / 220));
-
-        lastScroll = current;
-      };
-
-      window.addEventListener('scroll', updateGhost, { passive: true });
-      updateGhost();
-    }
+    // Use this for future updates:
+    // setVersion('v0.2');
+    // setVersion('v0.3');
+    // setVersion('v0.4');
   </script>
 </body>
 </html>
