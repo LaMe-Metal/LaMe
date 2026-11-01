@@ -7,21 +7,21 @@
   <style>
     :root {
       --bg: #080808;
-      --bg-2: #121212;
-      --panel: rgba(16, 16, 16, 0.92);
-      --panel-2: rgba(20, 20, 20, 0.98);
+      --bg-2: #101010;
+      --panel: rgba(15, 15, 15, 0.96);
+      --panel-soft: rgba(20, 20, 20, 0.95);
       --line: rgba(255,255,255,0.08);
-      --line-strong: rgba(255,255,255,0.18);
+      --line-strong: rgba(255,255,255,0.16);
       --text: #f5f5f5;
-      --muted: #b7b7b7;
+      --muted: #b5b5b5;
       --red-1: #120507;
-      --red-2: #2b070d;
-      --red-3: #5d0d16;
-      --red-4: #8b1220;
+      --red-2: #26080d;
+      --red-3: #4c0d15;
+      --red-4: #7b1220;
       --red-5: #b10d1e;
-      --red-6: #d42034;
+      --red-6: #d52238;
       --white: #ffffff;
-      --shadow: rgba(0, 0, 0, 0.65);
+      --shadow: rgba(0, 0, 0, 0.7);
     }
 
     * { box-sizing: border-box; }
@@ -30,9 +30,9 @@
       margin: 0;
       min-height: 100vh;
       background:
-        radial-gradient(circle at 20% 0%, rgba(177, 13, 30, 0.18), transparent 30%),
-        radial-gradient(circle at 80% 20%, rgba(212, 32, 52, 0.12), transparent 28%),
-        linear-gradient(180deg, #070707 0%, #0a0a0a 100%);
+        radial-gradient(circle at 15% 0%, rgba(177, 13, 30, 0.22), transparent 25%),
+        radial-gradient(circle at 80% 15%, rgba(213, 34, 56, 0.14), transparent 22%),
+        linear-gradient(180deg, #070707 0%, #0b0b0b 100%);
       color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
     }
@@ -41,17 +41,17 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 30px;
+      padding: 28px;
     }
 
     .shell {
-      width: min(100%, 850px);
-      background: linear-gradient(180deg, rgba(17,17,17,0.96), rgba(10,10,10,0.98));
+      width: min(100%, 860px);
+      background: linear-gradient(180deg, rgba(16,16,16,0.97), rgba(9,9,9,0.98));
       border: 1px solid var(--line);
       box-shadow:
         0 0 0 1px rgba(255,255,255,0.02),
-        0 30px 70px rgba(0,0,0,0.7),
-        inset 0 0 30px rgba(177,13,30,0.04);
+        0 28px 70px rgba(0,0,0,0.7),
+        inset 0 0 24px rgba(177,13,30,0.04);
       padding: clamp(18px, 3vw, 34px);
       position: relative;
       overflow: hidden;
@@ -66,7 +66,15 @@
     }
 
     .shell::before {
-      background: linear-gradient(90deg, transparent 0%, rgba(177,13,30,0.12) 18%, transparent 36%, transparent 64%, rgba(177,13,30,0.12) 82%, transparent 100%);
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(177,13,30,0.08) 16%,
+        transparent 34%,
+        transparent 66%,
+        rgba(177,13,30,0.08) 84%,
+        transparent 100%
+      );
     }
 
     .shell::after {
@@ -80,17 +88,17 @@
       display: flex;
       align-items: end;
       justify-content: space-between;
-      gap: 16px;
+      gap: 14px;
       padding-bottom: 18px;
-      border-bottom: 1px solid var(--line);
       margin-bottom: 24px;
+      border-bottom: 1px solid var(--line);
     }
 
     .brand {
       margin: 0;
-      font-size: clamp(24px, 5vw, 52px);
+      font-size: clamp(28px, 5vw, 52px);
       font-weight: 900;
-      letter-spacing: 0.3em;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
       line-height: 0.9;
       color: var(--text);
@@ -98,7 +106,7 @@
 
     .brand span {
       color: var(--red-6);
-      text-shadow: 0 0 18px rgba(212, 32, 52, 0.22);
+      text-shadow: 0 0 18px rgba(213, 34, 56, 0.22);
     }
 
     .tag {
@@ -106,7 +114,7 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       font-size: 9px;
-      opacity: 0.8;
+      opacity: 0.85;
       white-space: nowrap;
     }
 
@@ -114,11 +122,11 @@
       position: relative;
       z-index: 1;
       display: grid;
-      gap: 20px;
+      gap: 18px;
     }
 
     .card {
-      background: linear-gradient(180deg, rgba(18,18,18,0.96), rgba(11,11,11,0.96));
+      background: linear-gradient(180deg, rgba(18,18,18,0.96), rgba(10,10,10,0.96));
       border: 1px solid var(--line);
       padding: 20px 18px 18px;
       box-shadow: inset 0 0 0 1px rgba(255,255,255,0.015);
@@ -137,7 +145,7 @@
     .title {
       margin: 0;
       font-size: clamp(16px, 2.3vw, 28px);
-      letter-spacing: 0.18em;
+      letter-spacing: 0.17em;
       text-transform: uppercase;
       color: var(--text);
       font-weight: 800;
@@ -148,7 +156,7 @@
       font-size: 9px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      opacity: 0.85;
+      opacity: 0.8;
     }
 
     .list {
@@ -164,7 +172,7 @@
       min-height: 54px;
       padding: 12px 18px;
       background: linear-gradient(180deg, var(--red-5), var(--red-4));
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.08);
       color: var(--white);
       text-decoration: none;
       text-transform: uppercase;
@@ -191,26 +199,6 @@
       border-color: rgba(255,255,255,0.18);
     }
 
-    .meta {
-      display: grid;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .meta a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 12px;
-      line-height: 1.5;
-      word-break: break-all;
-      opacity: 0.9;
-    }
-
-    .meta a:hover {
-      color: var(--white);
-      text-decoration: underline;
-    }
-
     @media (max-width: 620px) {
       .list {
         grid-template-columns: 1fr;
@@ -231,31 +219,26 @@
   <main class="shell">
     <div class="brand-wrap">
       <h1 class="brand">La<span>Me</span></h1>
-      <div class="tag">official release</div>
+      <div class="tag">Official</div>
     </div>
 
     <div class="stack">
       <section class="card">
         <div class="card-header">
           <h2 class="title">Suppressed Scream</h2>
-          <div class="small-label">single</div>
+          <div class="small-label">Single</div>
         </div>
 
         <div class="list">
           <a class="btn" href="https://youtu.be/mz3qG9PVwJc?si=T6bikvwP0WClXUt5" target="_blank" rel="noreferrer">YouTube</a>
           <a class="btn secondary" href="https://www.bandlab.com/post/385c45b9-63f3-440d-a55e-360ce27cd58b" target="_blank" rel="noreferrer">BandLab</a>
         </div>
-
-        <div class="meta">
-          <a href="https://youtu.be/mz3qG9PVwJc?si=T6bikvwP0WClXUt5" target="_blank" rel="noreferrer">https://youtu.be/mz3qG9PVwJc?si=T6bikvwP0WClXUt5</a>
-          <a href="https://www.bandlab.com/post/385c45b9-63f3-440d-a55e-360ce27cd58b" target="_blank" rel="noreferrer">https://www.bandlab.com/post/385c45b9-63f3-440d-a55e-360ce27cd58b</a>
-        </div>
       </section>
 
       <section class="card">
         <div class="card-header">
-          <h2 class="title">Official accounts</h2>
-          <div class="small-label">follow</div>
+          <h2 class="title">Accounts</h2>
+          <div class="small-label">Follow</div>
         </div>
 
         <div class="list">
