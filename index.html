@@ -21,9 +21,7 @@
     }
 
     * { box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
-
     body {
       margin: 0;
       background:
@@ -34,13 +32,8 @@
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.6;
     }
-
     a { color: inherit; }
-
-    #app {
-      min-height: 100vh;
-      overflow: hidden;
-    }
+    #app { min-height: 100vh; overflow: hidden; }
 
     header {
       position: sticky;
@@ -61,7 +54,6 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
     }
-
     .logo span { color: var(--red-soft); }
 
     nav {
@@ -70,7 +62,6 @@
       gap: 24px;
       flex-wrap: wrap;
     }
-
     nav a {
       color: var(--muted);
       text-decoration: none;
@@ -79,7 +70,6 @@
       font-size: 11px;
       transition: color 0.2s ease;
     }
-
     nav a:hover { color: var(--text); }
 
     .hero {
@@ -92,7 +82,6 @@
       background: linear-gradient(120deg, rgba(9,9,9,1) 35%, rgba(33,10,14,0.92) 100%);
       border-bottom: 1px solid var(--line);
     }
-
     .hero::after {
       content: "";
       position: absolute;
@@ -100,12 +89,7 @@
       background: linear-gradient(90deg, rgba(0,0,0,0.35), transparent 45%);
       pointer-events: none;
     }
-
-    .hero-content,
-    .hero-panel {
-      position: relative;
-      z-index: 1;
-    }
+    .hero-content, .hero-panel { position: relative; z-index: 1; }
 
     .eyebrow {
       color: var(--red-soft);
@@ -155,28 +139,23 @@
       font-weight: 800;
       transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
       box-shadow: 0 10px 30px rgba(210, 31, 45, 0.2);
+      cursor: pointer;
     }
-
     .button:hover {
       transform: translateY(-1px);
       background: #f32d3d;
     }
-
     .button.secondary {
       background: transparent;
       color: var(--text);
       border-color: rgba(255,255,255,0.15);
       box-shadow: none;
     }
-
     .button.secondary:hover {
       background: rgba(255,255,255,0.04);
     }
 
-    .hero-panel {
-      display: flex;
-      justify-content: center;
-    }
+    .hero-panel { display: flex; justify-content: center; }
 
     .release-card {
       width: min(100%, 410px);
@@ -188,6 +167,7 @@
     }
 
     .cover-art {
+      position: relative;
       height: 220px;
       display: grid;
       place-items: center;
@@ -196,12 +176,26 @@
       color: #fff;
       background: linear-gradient(135deg, rgba(210,31,45,0.96), rgba(78,8,16,0.95));
       border-bottom: 1px solid rgba(255,255,255,0.08);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: all 0.2s ease;
+    }
+    .cover-art::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.16));
+      pointer-events: none;
+    }
+    .cover-art-text {
+      position: relative;
+      z-index: 1;
     }
 
     .release-info {
       padding: 22px 22px 26px;
     }
-
     .release-info small {
       display: inline-block;
       color: var(--red-soft);
@@ -211,7 +205,6 @@
       font-weight: 800;
       margin-bottom: 10px;
     }
-
     .release-info h3 {
       margin: 0 0 10px;
       font-size: clamp(28px, 4vw, 40px);
@@ -220,7 +213,6 @@
       text-transform: uppercase;
       font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
     }
-
     .release-info p {
       margin: 0;
       color: var(--muted);
@@ -232,10 +224,7 @@
       margin: 0 auto;
       padding: 52px 24px 80px;
     }
-
-    section {
-      margin-top: 40px;
-    }
+    section { margin-top: 40px; }
 
     .section-title {
       display: flex;
@@ -243,7 +232,6 @@
       gap: 18px;
       margin-bottom: 22px;
     }
-
     .section-title h2 {
       margin: 0;
       font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
@@ -251,7 +239,6 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
-
     .section-title::after {
       content: "";
       display: block;
@@ -267,17 +254,12 @@
       align-items: start;
     }
 
-    .track-box,
-    .info-box,
-    .links-box {
+    .track-box, .info-box, .links-box {
       background: rgba(18,18,18,0.9);
       border: 1px solid var(--line);
       box-shadow: 0 18px 40px rgba(0,0,0,0.28);
     }
-
-    .track-box {
-      padding: 18px;
-    }
+    .track-box { padding: 18px; }
 
     .track-summary {
       display: grid;
@@ -289,7 +271,6 @@
       border: 1px solid var(--line);
       margin-bottom: 18px;
     }
-
     .cover-mini {
       width: 54px;
       height: 54px;
@@ -299,13 +280,15 @@
       font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
       font-size: 24px;
       color: #fff;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
 
     .track-summary h3 {
       margin: 0 0 4px;
       font-size: 1.05rem;
     }
-
     .track-summary p {
       margin: 0;
       color: var(--muted);
@@ -328,12 +311,14 @@
       letter-spacing: 0.16em;
       font-weight: 800;
     }
-
-    .track-list {
-      display: grid;
-      gap: 12px;
+    .actions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
     }
 
+    .track-list { display: grid; gap: 12px; }
     .track-row {
       display: grid;
       grid-template-columns: 38px 1fr auto;
@@ -344,12 +329,10 @@
       border: 1px solid var(--line);
       transition: border-color 0.2s ease, background 0.2s ease;
     }
-
     .track-row.active {
       background: rgba(210, 31, 45, 0.08);
       border-color: rgba(210, 31, 45, 0.45);
     }
-
     .track-row button {
       width: 36px;
       height: 36px;
@@ -359,20 +342,16 @@
       cursor: pointer;
       transition: 0.2s ease;
     }
-
-    .track-row.active button,
-    .track-row button:hover {
+    .track-row.active button, .track-row button:hover {
       background: var(--red);
       border-color: var(--red);
       color: white;
     }
-
     .track-row strong {
       display: block;
       font-size: 0.92rem;
       letter-spacing: 0.02em;
     }
-
     .track-row small {
       display: block;
       color: var(--muted);
@@ -381,7 +360,6 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
     }
-
     .duration {
       color: var(--muted);
       font-size: 11px;
@@ -408,13 +386,11 @@
     }
 
     input[type=file] { display: none; }
-
     audio {
       width: 100%;
       margin-top: 16px;
       filter: saturate(1.1) sepia(0.1) contrast(1.04);
     }
-
     .progress-wrap {
       display: flex;
       align-items: center;
@@ -425,25 +401,18 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
-
     input[type=range] {
       flex: 1;
       accent-color: var(--red);
       cursor: pointer;
     }
 
-    .info-box,
-    .links-box {
-      padding: 24px;
-    }
-
-    .info-box p,
-    .links-box p {
+    .info-box, .links-box { padding: 24px; }
+    .info-box p, .links-box p {
       color: var(--muted);
       margin: 0 0 18px;
       line-height: 1.8;
     }
-
     .quote {
       margin-top: 18px;
       padding-left: 16px;
@@ -455,13 +424,11 @@
       text-transform: uppercase;
       line-height: 1.3;
     }
-
     .link-list {
       display: grid;
       gap: 12px;
       margin-top: 16px;
     }
-
     .link-list a {
       display: block;
       color: var(--text);
@@ -474,7 +441,6 @@
       font-size: 10px;
       transition: border-color 0.2s ease, background 0.2s ease;
     }
-
     .link-list a:hover {
       border-color: rgba(240,84,94,0.5);
       background: rgba(210, 31, 45, 0.06);
@@ -496,48 +462,18 @@
         min-height: auto;
         padding-top: 54px;
       }
-
-      .music-grid {
-        grid-template-columns: 1fr;
-      }
+      .music-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 600px) {
-      header {
-        padding: 16px 20px;
-      }
-
-      nav {
-        gap: 10px 14px;
-      }
-
-      nav a {
-        font-size: 9px;
-        letter-spacing: 0.12em;
-      }
-
-      .hero {
-        padding-left: 20px;
-        padding-right: 20px;
-      }
-
-      .hero-actions {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .button,
-      .label-button {
-        width: 100%;
-      }
-
-      .track-summary {
-        grid-template-columns: 44px 1fr;
-      }
-
-      .label-button {
-        grid-column: 1 / -1;
-      }
+      header { padding: 16px 20px; }
+      nav { gap: 10px 14px; }
+      nav a { font-size: 9px; letter-spacing: 0.12em; }
+      .hero { padding-left: 20px; padding-right: 20px; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .button, .label-button { width: 100%; }
+      .track-summary { grid-template-columns: 44px 1fr; }
+      .label-button { grid-column: 1 / -1; }
     }
   </style>
 </head>
@@ -565,7 +501,7 @@
 
       <div class="hero-panel">
         <div class="release-card">
-          <div class="cover-art">L</div>
+          <div id="coverArt" class="cover-art"><span class="cover-art-text">L</span></div>
           <div class="release-info">
             <small>Latest release</small>
             <h3>New Noise</h3>
@@ -582,15 +518,19 @@
         <div class="music-grid">
           <div class="track-box">
             <div class="track-summary">
-              <div class="cover-mini">L</div>
+              <div id="coverMini" class="cover-mini">L</div>
               <div>
                 <h3 id="trackName">No tracks yet</h3>
                 <p id="trackInfo">LaMe · Metal</p>
               </div>
-              <label class="label-button" id="fileLabel" for="audioFile">＋ Add track</label>
+              <div class="actions-row">
+                <label class="label-button" id="fileLabel" for="audioFile">＋ Add track</label>
+                <label class="label-button" id="coverLabel" for="coverUpload">Cover</label>
+              </div>
             </div>
 
             <input id="audioFile" type="file" accept="audio/*" multiple>
+            <input id="coverUpload" type="file" accept="image/*">
             <div id="trackList" class="track-list"><div class="empty">Your releases will appear here.</div></div>
 
             <audio id="player" preload="metadata"></audio>
@@ -600,7 +540,7 @@
               <span id="totalTime">0:00</span>
             </div>
 
-            <p class="upload-note">Add your own audio files to preview them here. Files stay in this browser preview and are not uploaded publicly.</p>
+            <p class="upload-note">Add your own audio files to preview them here. Files stay saved in this browser and remain after refresh.</p>
           </div>
 
           <aside class="info-box">
@@ -636,12 +576,80 @@
   </div>
 
   <script>
+    const ADMIN_PASSWORD = 'LaMeMetal2026';
+    const TRACKS_KEY = 'lame_tracks_v1';
+    const COVER_KEY = 'lame_cover_v1';
+    const ACCESS_KEY = 'lame_access_v1';
+
     const picker = document.getElementById('audioFile');
+    const coverUpload = document.getElementById('coverUpload');
     const player = document.getElementById('player');
     const list = document.getElementById('trackList');
     const seek = document.getElementById('seek');
+    const coverArt = document.getElementById('coverArt');
+    const coverMini = document.getElementById('coverMini');
+    const fileLabel = document.getElementById('fileLabel');
+    const coverLabel = document.getElementById('coverLabel');
+
     let tracks = [];
     let active = -1;
+
+    function hasAccess() {
+      return localStorage.getItem(ACCESS_KEY) === 'allowed';
+    }
+
+    function ensureAccess(event) {
+      if (hasAccess()) return true;
+      const password = prompt('Zadej admin heslo pro nahrávání hudby a obalu:');
+      if (password === ADMIN_PASSWORD) {
+        localStorage.setItem(ACCESS_KEY, 'allowed');
+        return true;
+      }
+      if (event) event.preventDefault();
+      alert('Přístup odmítnut.');
+      return false;
+    }
+
+    function saveTracks() {
+      localStorage.setItem(TRACKS_KEY, JSON.stringify(tracks));
+    }
+
+    function loadTracks() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(TRACKS_KEY) || '[]');
+        if (Array.isArray(saved) && saved.length) {
+          tracks = saved;
+        }
+      } catch (error) {
+        console.error('Track load failed:', error);
+      }
+    }
+
+    function saveCover(dataUrl) {
+      localStorage.setItem(COVER_KEY, dataUrl);
+    }
+
+    function loadCover() {
+      const saved = localStorage.getItem(COVER_KEY);
+      if (!saved) return;
+      applyCover(saved);
+    }
+
+    function applyCover(dataUrl) {
+      if (!dataUrl) return;
+      coverArt.style.backgroundImage = `url('${dataUrl}')`;
+      coverMini.style.backgroundImage = `url('${dataUrl}')`;
+      coverArt.querySelector('.cover-art-text').style.display = 'none';
+      coverMini.textContent = '';
+    }
+
+    function resetCover() {
+      coverArt.style.backgroundImage = 'linear-gradient(135deg, rgba(210,31,45,0.96), rgba(78,8,16,0.95))';
+      coverMini.style.backgroundImage = 'linear-gradient(135deg, var(--red), #320b12)';
+      coverArt.querySelector('.cover-art-text').style.display = 'block';
+      coverMini.textContent = 'L';
+      localStorage.removeItem(COVER_KEY);
+    }
 
     const time = value => {
       if (!Number.isFinite(value)) return '0:00';
@@ -701,19 +709,60 @@
       renderTracks();
     }
 
-    picker.addEventListener('change', () => {
-      Array.from(picker.files || []).forEach(file => {
-        const url = URL.createObjectURL(file);
-        tracks.push({ name: file.name.replace(/\.[^.]+$/, ''), url, duration: '' });
+    function readAsDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error('Could not read file'));
+        reader.readAsDataURL(file);
       });
+    }
+
+    fileLabel.addEventListener('click', (event) => {
+      if (!ensureAccess(event)) return;
+      picker.click();
+    });
+
+    coverLabel.addEventListener('click', (event) => {
+      if (!ensureAccess(event)) return;
+      coverUpload.click();
+    });
+
+    picker.addEventListener('change', async () => {
+      if (!ensureAccess()) return;
+
+      const files = Array.from(picker.files || []);
+      if (!files.length) return;
+
+      for (const file of files) {
+        const dataUrl = await readAsDataUrl(file);
+        const name = file.name.replace(/\.[^.]+$/, '');
+        tracks.push({ name, url: dataUrl, duration: '' });
+      }
+
+      saveTracks();
       renderTracks();
+
       if (active < 0 && tracks.length) playTrack(0);
       picker.value = '';
+    });
+
+    coverUpload.addEventListener('change', async () => {
+      if (!ensureAccess()) return;
+
+      const file = coverUpload.files && coverUpload.files[0];
+      if (!file) return;
+
+      const dataUrl = await readAsDataUrl(file);
+      saveCover(dataUrl);
+      applyCover(dataUrl);
+      coverUpload.value = '';
     });
 
     player.addEventListener('loadedmetadata', () => {
       if (tracks[active]) tracks[active].duration = time(player.duration);
       document.getElementById('totalTime').textContent = time(player.duration);
+      saveTracks();
       renderTracks();
     });
 
@@ -734,6 +783,10 @@
     });
 
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    loadTracks();
+    loadCover();
+    renderTracks();
   </script>
 </body>
 </html>
