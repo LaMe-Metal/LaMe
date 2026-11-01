@@ -8,10 +8,12 @@
     :root {
       --bg: #0b0b0b;
       --panel: #111111;
+      --panel-2: #181818;
       --line: #2b2b2b;
       --text: #f3f3f3;
       --muted: #a3a3a3;
       --red: #b61125;
+      --red-soft: #d12338;
     }
 
     * { box-sizing: border-box; }
@@ -39,7 +41,7 @@
     }
 
     .brand {
-      margin: 0 0 24px;
+      margin: 0 0 20px;
       font-size: 26px;
       font-weight: 700;
       letter-spacing: 0.18em;
@@ -50,24 +52,32 @@
       color: var(--red);
     }
 
-    .section {
-      margin-top: 20px;
+    .track-group {
+      margin-top: 18px;
       padding: 18px 16px;
       border: 1px solid var(--line);
-      background: #0d0d0d;
+      background: var(--panel-2);
     }
 
-    .label {
-      margin: 0 0 12px;
-      color: var(--muted);
-      font-size: 10px;
-      letter-spacing: 0.14em;
+    .track-title {
+      margin: 0 0 14px;
+      font-size: 18px;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
+      color: var(--text);
     }
 
-    .link-btn {
-      display: inline-block;
-      margin-top: 8px;
+    .platforms {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .platform-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
       padding: 12px 16px;
       border: 1px solid var(--red);
       background: var(--red);
@@ -77,30 +87,37 @@
       letter-spacing: 0.12em;
       font-size: 10px;
       font-weight: 700;
+      transition: background 0.2s ease, border-color 0.2s ease;
     }
 
-    .plain-link {
-      display: block;
-      margin-top: 12px;
+    .platform-btn.secondary {
+      background: transparent;
+      border-color: var(--line);
       color: var(--text);
+    }
+
+    .platform-btn:hover {
+      background: var(--red-soft);
+      border-color: var(--red-soft);
+    }
+
+    .platform-btn.secondary:hover {
+      background: #1a1a1a;
+      border-color: var(--text);
+    }
+
+    .tiny-link {
+      display: block;
+      margin-top: 14px;
+      color: var(--muted);
       text-decoration: none;
       word-break: break-all;
       line-height: 1.6;
-      font-size: 14px;
+      font-size: 13px;
     }
 
-    .plain-link:hover {
+    .tiny-link:hover {
       text-decoration: underline;
-    }
-
-    .youtube-box {
-      margin-top: 12px;
-      padding: 14px 12px;
-      border: 1px dashed var(--line);
-      color: var(--muted);
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
     }
   </style>
 </head>
@@ -108,19 +125,26 @@
   <main class="box">
     <div class="brand">La<span>Me</span></div>
 
-    <section class="section">
-      <h2 class="label">BandLab</h2>
-      <a class="link-btn" href="https://www.bandlab.com/post/385c45b9-63f3-440d-a55e-360ce27cd58b" target="_blank" rel="noreferrer">
-        Open in BandLab
-      </a>
-      <a class="plain-link" href="https://www.bandlab.com/post/385c45b9-63f3-440d-a55e-360ce27cd58b" target="_blank" rel="noreferrer">
+    <section class="track-group">
+      <h2 class="track-title">Suppressed Scream</h2>
+
+      <div class="platforms">
+        <a class="platform-btn" href="https://www.bandlab.com/post/385c45b9-63f3-440d-a55e-360ce27cd58b" target="_blank" rel="noreferrer">
+          BandLab
+        </a>
+
+        <a class="platform-btn secondary" href="https://youtu.be/mz3qG9PVwJc?si=T6bikvwP0WClXUt5" target="_blank" rel="noreferrer">
+          YouTube
+        </a>
+      </div>
+
+      <a class="tiny-link" href="https://www.bandlab.com/post/385c45b9-63f3-440d-a55e-360ce27cd58b" target="_blank" rel="noreferrer">
         https://www.bandlab.com/post/385c45b9-63f3-440d-a55e-360ce27cd58b
       </a>
-    </section>
 
-    <section class="section">
-      <h2 class="label">YouTube</h2>
-      <div class="youtube-box">Přidáme YouTube link později</div>
+      <a class="tiny-link" href="https://youtu.be/mz3qG9PVwJc?si=T6bikvwP0WClXUt5" target="_blank" rel="noreferrer">
+        https://youtu.be/mz3qG9PVwJc?si=T6bikvwP0WClXUt5
+      </a>
     </section>
   </main>
 </body>
