@@ -1,182 +1,739 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LaMe — Official Music</title>
-<style>
-:root {
-  --site-primary: #b51224;
-  --site-secondary: #26080d;
-  --site-background: #090909;
-  --site-on-background: #f5eeee;
-  --surface: #101010;
-  --muted: #929292;
-  --line: #292929;
-}
-* { box-sizing: border-box; }
-body { margin: 0; background: #090909; color: var(--site-on-background); font-family: Inter, system-ui, sans-serif; }
-#app { min-height: 100vh; background: var(--site-background); overflow: hidden; }
-header { min-height: 68px; display:flex; align-items:center; justify-content:space-between; padding:16px 6vw; border-bottom:1px solid var(--line); }
-.logo { font-family:Impact,sans-serif; font-size:30px; letter-spacing:2px; }
-.logo span { color:var(--site-primary); }
-nav a { color:var(--muted); text-decoration:none; margin-left:24px; font-size:13px; letter-spacing:1px; text-transform:uppercase; }
-.hero { min-height:310px; padding:66px 8vw 58px; display:flex; flex-direction:column; justify-content:center; background:linear-gradient(110deg,#090909 55%,#21090d 100%); }
-.eyebrow { color:#e04a5a; letter-spacing:4px; text-transform:uppercase; font-size:11px; font-weight:800; }
-h1 { font-family:Impact,sans-serif; font-size:clamp(64px,11vw,112px); line-height:.9; margin:16px 0; }
-.hero p { max-width:460px; color:#c8bfc0; line-height:1.7; margin:8px 0 26px; }
-.button { display:inline-flex; background:var(--site-primary); color:white; padding:12px 17px; text-decoration:none; font-weight:700; font-size:11px; letter-spacing:1px; text-transform:uppercase; width:max-content; border:0; cursor:pointer; }
-main { max-width:900px; margin:0 auto; padding:42px 24px 70px; }
-.section-title { display:flex; align-items:center; gap:14px; margin-bottom:24px; }
-.section-title h2 { font-family:Impact,sans-serif; font-size:32px; margin:0; }
-.section-title:after { content:""; height:1px; flex:1; background:var(--line); }
-.track { background:var(--surface); border:1px solid var(--line); padding:16px; display:grid; grid-template-columns:48px 1fr auto; gap:16px; align-items:center; }
-.cover { width:48px; height:48px; background:#b51224; display:grid; place-items:center; font-family:Impact,sans-serif; font-size:21px; color:white; }
-.track h3 { margin:0 0 5px; font-size:16px; }
-.track p { margin:0; color:var(--muted); font-size:12px; }
-.upload-note { margin-top:18px; color:var(--muted); font-size:13px; line-height:1.6; max-width:620px; }
-input[type=file] { display:none; }
-#fileLabel { margin-top:16px; }
-audio { width:100%; margin-top:16px; }
-footer { border-top:1px solid var(--line); padding:22px; text-align:center; color:#777; font-size:11px; }
-.track-list { display:grid; gap:10px; }
-.track-row { display:grid; grid-template-columns:36px 1fr auto; align-items:center; gap:14px; padding:14px; border:1px solid var(--line); background:#0e0e0e; }
-.track-row button { background:transparent; border:1px solid #5b1720; color:#ef5262; width:34px; height:34px; cursor:pointer; }
-.track-row button:hover,.track-row.active button { background:var(--site-primary); color:white; }
-.track-row strong { font-size:14px; }
-.track-row small { color:var(--muted); display:block; margin-top:4px; }
-.track-row .duration { color:var(--muted); font-size:11px; }
-.progress-wrap { display:flex; align-items:center; gap:10px; margin-top:15px; color:var(--muted); font-size:11px; }
-input[type=range] { flex:1; accent-color:var(--site-primary); cursor:pointer; }
-.empty { color:var(--muted); border:1px dashed #393939; padding:22px; font-size:13px; }
-@media(max-width:600px) {
-header { padding:16px 20px; }
-nav a { margin-left:12px; font-size:10px; }
-.hero { min-height:290px; padding-top:55px; }
-.track { grid-template-columns:42px 1fr; gap:12px; }
-.cover { width:42px; height:42px; }
-.track .button { grid-column:1/-1; justify-content:center; width:100%; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LaMe — Official Metal</title>
+  <style>
+    :root {
+      --bg: #070707;
+      --bg-2: #14080b;
+      --panel: #121212;
+      --panel-alt: #1a1a1a;
+      --line: rgba(255,255,255,0.08);
+      --text: #f5efef;
+      --muted: #b1a6a8;
+      --red: #d21f2d;
+      --red-soft: #f0545e;
+      --orange: #ff9f43;
+      --shadow: rgba(0,0,0,0.45);
+      --success: #98f5b7;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(210,31,45,0.2), transparent 25%),
+        radial-gradient(circle at bottom right, rgba(255,159,67,0.15), transparent 20%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; }
+
+    #app {
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(16px);
+      background: rgba(7, 7, 7, 0.78);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 6vw;
+    }
+
+    .logo {
+      font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+      font-size: clamp(28px, 3vw, 42px);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .logo span { color: var(--red-soft); }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 11px;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover { color: var(--text); }
+
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: center;
+      min-height: 520px;
+      padding: 72px 6vw 56px;
+      background: linear-gradient(120deg, rgba(9,9,9,1) 35%, rgba(33,10,14,0.92) 100%);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(0,0,0,0.35), transparent 45%);
+      pointer-events: none;
+    }
+
+    .hero-content,
+    .hero-panel {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      color: var(--red-soft);
+      font-size: 11px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+      font-size: clamp(64px, 11vw, 135px);
+      line-height: 0.82;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-shadow: 0 0 18px rgba(242, 79, 97, 0.25);
+    }
+
+    .hero p {
+      max-width: 520px;
+      color: var(--muted);
+      font-size: 1.06rem;
+      margin: 20px 0 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--red);
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 22px;
+      border: 1px solid rgba(255,255,255,0.12);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 10px;
+      font-weight: 800;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      box-shadow: 0 10px 30px rgba(210, 31, 45, 0.2);
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      background: #f32d3d;
+    }
+
+    .button.secondary {
+      background: transparent;
+      color: var(--text);
+      border-color: rgba(255,255,255,0.15);
+      box-shadow: none;
+    }
+
+    .button.secondary:hover {
+      background: rgba(255,255,255,0.04);
+    }
+
+    .hero-panel {
+      display: flex;
+      justify-content: center;
+    }
+
+    .release-card {
+      width: min(100%, 410px);
+      background: linear-gradient(180deg, rgba(17,17,17,0.96), rgba(12,12,12,1));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.55);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .cover-art {
+      height: 220px;
+      display: grid;
+      place-items: center;
+      font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+      font-size: clamp(56px, 8vw, 96px);
+      color: #fff;
+      background: linear-gradient(135deg, rgba(210,31,45,0.96), rgba(78,8,16,0.95));
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .release-info {
+      padding: 22px 22px 26px;
+    }
+
+    .release-info small {
+      display: inline-block;
+      color: var(--red-soft);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-size: 10px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .release-info h3 {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 4vw, 40px);
+      line-height: 1;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+    }
+
+    .release-info p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 52px 24px 80px;
+    }
+
+    section {
+      margin-top: 40px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+      font-size: clamp(26px, 3vw, 40px);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.22), rgba(255,255,255,0.04));
+    }
+
+    .music-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .track-box,
+    .info-box,
+    .links-box {
+      background: rgba(18,18,18,0.9);
+      border: 1px solid var(--line);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.28);
+    }
+
+    .track-box {
+      padding: 18px;
+    }
+
+    .track-summary {
+      display: grid;
+      grid-template-columns: 54px 1fr auto;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 14px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--line);
+      margin-bottom: 18px;
+    }
+
+    .cover-mini {
+      width: 54px;
+      height: 54px;
+      background: linear-gradient(135deg, var(--red), #320b12);
+      display: grid;
+      place-items: center;
+      font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+      font-size: 24px;
+      color: #fff;
+    }
+
+    .track-summary h3 {
+      margin: 0 0 4px;
+      font-size: 1.05rem;
+    }
+
+    .track-summary p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .label-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.18);
+      padding: 10px 14px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-weight: 800;
+    }
+
+    .track-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .track-row {
+      display: grid;
+      grid-template-columns: 38px 1fr auto;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 12px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--line);
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .track-row.active {
+      background: rgba(210, 31, 45, 0.08);
+      border-color: rgba(210, 31, 45, 0.45);
+    }
+
+    .track-row button {
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .track-row.active button,
+    .track-row button:hover {
+      background: var(--red);
+      border-color: var(--red);
+      color: white;
+    }
+
+    .track-row strong {
+      display: block;
+      font-size: 0.92rem;
+      letter-spacing: 0.02em;
+    }
+
+    .track-row small {
+      display: block;
+      color: var(--muted);
+      margin-top: 4px;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .duration {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .empty {
+      border: 1px dashed rgba(255,255,255,0.18);
+      color: var(--muted);
+      background: rgba(255,255,255,0.01);
+      padding: 20px;
+      text-align: center;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .upload-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.7;
+    }
+
+    input[type=file] { display: none; }
+
+    audio {
+      width: 100%;
+      margin-top: 16px;
+      filter: saturate(1.1) sepia(0.1) contrast(1.04);
+    }
+
+    .progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    input[type=range] {
+      flex: 1;
+      accent-color: var(--red);
+      cursor: pointer;
+    }
+
+    .info-box,
+    .links-box {
+      padding: 24px;
+    }
+
+    .info-box p,
+    .links-box p {
+      color: var(--muted);
+      margin: 0 0 18px;
+      line-height: 1.8;
+    }
+
+    .quote {
+      margin-top: 18px;
+      padding-left: 16px;
+      border-left: 2px solid var(--red-soft);
+      color: var(--text);
+      font-size: 1.15rem;
+      font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1.3;
+    }
+
+    .link-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .link-list a {
+      display: block;
+      color: var(--text);
+      text-decoration: none;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--line);
+      padding: 12px 14px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 10px;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .link-list a:hover {
+      border-color: rgba(240,84,94,0.5);
+      background: rgba(210, 31, 45, 0.06);
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 22px 24px 44px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    @media (max-width: 820px) {
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding-top: 54px;
+      }
+
+      .music-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 16px 20px;
+      }
+
+      nav {
+        gap: 10px 14px;
+      }
+
+      nav a {
+        font-size: 9px;
+        letter-spacing: 0.12em;
+      }
+
+      .hero {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .button,
+      .label-button {
+        width: 100%;
+      }
+
+      .track-summary {
+        grid-template-columns: 44px 1fr;
+      }
+
+      .label-button {
+        grid-column: 1 / -1;
+      }
+    }
+  </style>
 </head>
 <body>
-<div id="app">
-<header>
-<div class="logo">La<span>Me</span></div>
-<nav><a href="#music">Music</a><a href="#about">About</a></nav>
-</header>
-<section class="hero">
-<div class="eyebrow">Independent metal artist</div>
-<h1>LaMe</h1>
-<p>My music. My noise. No limits.</p>
-<a class="button" href="#music">▶ Explore music</a>
-</section>
-<main>
-<section id="music">
-<div class="section-title"><h2>RELEASES</h2></div>
-<div class="track">
-<div class="cover">L</div>
-<div><h3 id="trackName">No tracks yet</h3><p id="trackInfo">LaMe · Metal</p></div>
-<label class="button" id="fileLabel" for="audioFile">＋ Add track</label>
-</div>
-<input id="audioFile" type="file" accept="audio/*" multiple>
-<div id="trackList" class="track-list" style="margin-top:12px"><div class="empty">Your releases will appear here.</div></div>
-<audio id="player" preload="metadata"></audio>
-<div class="progress-wrap">
-<span id="currentTime">0:00</span>
-<input id="seek" type="range" min="0" max="100" value="0">
-<span id="totalTime">0:00</span>
-</div>
-<p class="upload-note">Add your own audio files to preview them here. Files stay in this browser preview and are not uploaded publicly.</p>
-</section>
-<section id="about" style="margin-top:48px">
-<div class="section-title"><h2>ABOUT</h2></div>
-<p style="color:var(--muted);line-height:1.8;max-width:650px">LaMe is an independent metal project. This is the home of my music.</p>
-</section>
-</main>
-<footer>© <span id="year"></span> LaMe · INDEPENDENT METAL</footer>
-</div>
-<script>
-const picker = document.getElementById('audioFile');
-const player = document.getElementById('player');
-const list = document.getElementById('trackList');
-const seek = document.getElementById('seek');
-let tracks = [];
-let active = -1;
-const time = value => {
-if (!Number.isFinite(value)) return '0:00';
-const m = Math.floor(value / 60);
-return m + ':' + String(Math.floor(value % 60)).padStart(2, '0');
-};
-function renderTracks() {
-list.innerHTML = '';
-if (!tracks.length) {
-list.innerHTML = '<div class="empty">Your releases will appear here.</div>';
-return;
-}
-tracks.forEach((track,index) => {
-const row = document.createElement('div');
-row.className = 'track-row' + (active === index ? ' active' : '');
-const play = document.createElement('button');
-play.textContent = active === index && !player.paused ? 'Ⅱ' : '▶';
-play.setAttribute('aria-label','Play ' + track.name);
-play.addEventListener('click',() => playTrack(index));
-const info = document.createElement('div');
-const name = document.createElement('strong');
-name.textContent = track.name;
-const artist = document.createElement('small');
-artist.textContent = 'LaMe · Metal';
-info.append(name,artist);
-const duration = document.createElement('span');
-duration.className = 'duration';
-duration.textContent = track.duration || '—';
-row.append(play,info,duration);
-list.append(row);
-});
-}
-function playTrack(index) {
-if (active === index) {
-if (player.paused) player.play();
-else player.pause();
-} else {
-active = index;
-player.src = tracks[index].url;
-player.play().catch(() => {});
-document.getElementById('trackName').textContent = tracks[index].name;
-document.getElementById('trackInfo').textContent = 'LaMe · Metal';
-}
-renderTracks();
-}
-picker.addEventListener('change',() => {
-Array.from(picker.files || []).forEach(file => {
-const url = URL.createObjectURL(file);
-tracks.push({name:file.name.replace(/\.[^.]+$/,''),url,duration:''});
-});
-renderTracks();
-if (active < 0 && tracks.length) playTrack(0);
-picker.value = '';
-});
-player.addEventListener('loadedmetadata',() => {
-if (tracks[active]) tracks[active].duration = time(player.duration);
-document.getElementById('totalTime').textContent = time(player.duration);
-renderTracks();
-});
-player.addEventListener('timeupdate',() => {
-document.getElementById('currentTime').textContent = time(player.currentTime);
-seek.value = player.duration ? player.currentTime / player.duration * 100 : 0;
-});
-player.addEventListener('play',renderTracks);
-player.addEventListener('pause',renderTracks);
-player.addEventListener('ended',() => {
-if (active + 1 < tracks.length) playTrack(active + 1);
-else renderTracks();
-});
-seek.addEventListener('input',() => {
-if (player.duration) player.currentTime = Number(seek.value) / 100 * player.duration;
-});
-document.getElementById('year').textContent = new Date().getFullYear();
-</script>
+  <div id="app">
+    <header>
+      <div class="logo">La<span>Me</span></div>
+      <nav>
+        <a href="#music">Music</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">Independent metal artist</div>
+        <h1>LaMe</h1>
+        <p>Raw riffs, crushing drums and a voice that doesn’t ask for permission. Built for the underground and made to hit hard.</p>
+        <div class="hero-actions">
+          <a class="button" href="#music">▶ Listen now</a>
+          <a class="button secondary" href="#about">About the project</a>
+        </div>
+      </div>
+
+      <div class="hero-panel">
+        <div class="release-card">
+          <div class="cover-art">L</div>
+          <div class="release-info">
+            <small>Latest release</small>
+            <h3>New Noise</h3>
+            <p>Dark metal energy for the late-night drive and the loudest room in town.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main>
+      <section id="music">
+        <div class="section-title"><h2>Releases</h2></div>
+
+        <div class="music-grid">
+          <div class="track-box">
+            <div class="track-summary">
+              <div class="cover-mini">L</div>
+              <div>
+                <h3 id="trackName">No tracks yet</h3>
+                <p id="trackInfo">LaMe · Metal</p>
+              </div>
+              <label class="label-button" id="fileLabel" for="audioFile">＋ Add track</label>
+            </div>
+
+            <input id="audioFile" type="file" accept="audio/*" multiple>
+            <div id="trackList" class="track-list"><div class="empty">Your releases will appear here.</div></div>
+
+            <audio id="player" preload="metadata"></audio>
+            <div class="progress-wrap">
+              <span id="currentTime">0:00</span>
+              <input id="seek" type="range" min="0" max="100" value="0">
+              <span id="totalTime">0:00</span>
+            </div>
+
+            <p class="upload-note">Add your own audio files to preview them here. Files stay in this browser preview and are not uploaded publicly.</p>
+          </div>
+
+          <aside class="info-box">
+            <div class="section-title" style="margin-bottom: 14px;"><h2 style="font-size: 22px;">On the road</h2></div>
+            <p>LaMe blends aggressive metal textures with melodic tension and a relentless DIY attitude. Every track is built to feel like the room is shaking.</p>
+            <div class="quote">“Noise is a language, and I speak it loud.”</div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="about">
+        <div class="section-title"><h2>About</h2></div>
+        <div class="music-grid">
+          <div class="info-box">
+            <p>LaMe is an independent metal project focused on atmosphere, power and raw emotional intensity. The sound is built from distortion, weight and movement — a mix of modern aggression and old-school attitude.</p>
+            <p>Whether it is a single, a live set or a new demo, the mission stays the same: create music that feels heavy, personal and unforgettable.</p>
+          </div>
+
+          <div class="links-box" id="contact">
+            <div class="section-title" style="margin-bottom: 14px;"><h2 style="font-size: 22px;">Connect</h2></div>
+            <p>Follow the project, reach out for bookings or send new ideas.</p>
+            <div class="link-list">
+              <a href="#music">Listen to the latest tracks</a>
+              <a href="mailto:hello@lamemusic.example">hello@lamemusic.example</a>
+              <a href="#">Instagram / Bandcamp / YouTube</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>© <span id="year"></span> LaMe · Independent metal</footer>
+  </div>
+
+  <script>
+    const picker = document.getElementById('audioFile');
+    const player = document.getElementById('player');
+    const list = document.getElementById('trackList');
+    const seek = document.getElementById('seek');
+    let tracks = [];
+    let active = -1;
+
+    const time = value => {
+      if (!Number.isFinite(value)) return '0:00';
+      const m = Math.floor(value / 60);
+      return m + ':' + String(Math.floor(value % 60)).padStart(2, '0');
+    };
+
+    function renderTracks() {
+      list.innerHTML = '';
+      if (!tracks.length) {
+        list.innerHTML = '<div class="empty">Your releases will appear here.</div>';
+        return;
+      }
+
+      tracks.forEach((track, index) => {
+        const row = document.createElement('div');
+        row.className = 'track-row' + (active === index ? ' active' : '');
+
+        const play = document.createElement('button');
+        play.textContent = active === index && !player.paused ? 'Ⅱ' : '▶';
+        play.setAttribute('aria-label', 'Play ' + track.name);
+        play.addEventListener('click', () => playTrack(index));
+
+        const info = document.createElement('div');
+        const name = document.createElement('strong');
+        name.textContent = track.name;
+        const artist = document.createElement('small');
+        artist.textContent = 'LaMe · Metal';
+        info.append(name, artist);
+
+        const duration = document.createElement('span');
+        duration.className = 'duration';
+        duration.textContent = track.duration || '—';
+
+        row.append(play, info, duration);
+        list.append(row);
+      });
+    }
+
+    function setTrackMeta(index) {
+      if (tracks[index]) {
+        document.getElementById('trackName').textContent = tracks[index].name;
+        document.getElementById('trackInfo').textContent = 'LaMe · Metal';
+      }
+    }
+
+    function playTrack(index) {
+      if (active === index) {
+        if (player.paused) player.play();
+        else player.pause();
+      } else {
+        active = index;
+        player.src = tracks[index].url;
+        player.play().catch(() => {});
+        setTrackMeta(index);
+      }
+      renderTracks();
+    }
+
+    picker.addEventListener('change', () => {
+      Array.from(picker.files || []).forEach(file => {
+        const url = URL.createObjectURL(file);
+        tracks.push({ name: file.name.replace(/\.[^.]+$/, ''), url, duration: '' });
+      });
+      renderTracks();
+      if (active < 0 && tracks.length) playTrack(0);
+      picker.value = '';
+    });
+
+    player.addEventListener('loadedmetadata', () => {
+      if (tracks[active]) tracks[active].duration = time(player.duration);
+      document.getElementById('totalTime').textContent = time(player.duration);
+      renderTracks();
+    });
+
+    player.addEventListener('timeupdate', () => {
+      document.getElementById('currentTime').textContent = time(player.currentTime);
+      seek.value = player.duration ? (player.currentTime / player.duration) * 100 : 0;
+    });
+
+    player.addEventListener('play', renderTracks);
+    player.addEventListener('pause', renderTracks);
+    player.addEventListener('ended', () => {
+      if (active + 1 < tracks.length) playTrack(active + 1);
+      else renderTracks();
+    });
+
+    seek.addEventListener('input', () => {
+      if (player.duration) player.currentTime = (Number(seek.value) / 100) * player.duration;
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
-
