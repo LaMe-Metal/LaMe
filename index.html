@@ -148,10 +148,15 @@
       border: 1px solid var(--line);
       padding: 12px 12px 10px;
     }
-    audio {
+    audio, video {
       width: 100%;
       display: block;
       outline: none;
+      max-height: 300px;
+      background: #000;
+    }
+    .hidden {
+      display: none !important;
     }
 
     .track-list {
@@ -227,10 +232,6 @@
       font-size: 10px;
     }
 
-    .hidden {
-      display: none !important;
-    }
-
     @media (max-width: 420px) {
       .controls { grid-template-columns: 1fr; }
       .cover-box { height: 240px; }
@@ -255,15 +256,16 @@
     </section>
 
     <div class="controls hidden" id="adminControls">
-      <label class="button primary" for="audioInput">Upload music</label>
+      <label class="button primary" for="mediaInput">Upload media</label>
       <label class="button" for="coverInput">Upload cover</label>
     </div>
 
-    <input id="audioInput" type="file" accept="audio/*,.m4a,audio/mp4,audio/m4a" multiple />
+    <input id="mediaInput" type="file" accept="audio/*,video/*,.dat,.mp3,.wav,.ogg,.aac,.m4a,.flac,.mp4,.webm,.m4v,.mov,.avi" multiple />
     <input id="coverInput" type="file" accept="image/*" />
 
     <div class="player-box">
-      <audio id="player" controls preload="metadata"></audio>
+      <audio id="audioPlayer" controls preload="metadata"></audio>
+      <video id="videoPlayer" controls preload="metadata" class="hidden"></video>
     </div>
 
     <ul id="trackList" class="track-list"></ul>
@@ -278,11 +280,12 @@
     const adminBtn = document.getElementById('adminBtn');
     const adminControls = document.getElementById('adminControls');
     const app = document.getElementById('app');
-    const player = document.getElementById('player');
+    const audioPlayer = document.getElementById('audioPlayer');
+    const videoPlayer = document.getElementById('videoPlayer');
     const trackList = document.getElementById('trackList');
     const coverBox = document.getElementById('coverBox');
     const activeTitle = document.getElementById('activeTitle');
-    const audioInput = document.getElementById('audioInput');
+    const mediaInput = document.getElementById('mediaInput');
     const coverInput = document.getElementById('coverInput');
 
     let tracks = [];
@@ -292,8 +295,20 @@
       const name = (file && file.name) ? file.name.toLowerCase() : '';
       return file && (
         file.type.startsWith('audio/') ||
-        /\.(mp3|wav|ogg|aac|m4a|flac)$/i.test(name)
+        /\.(mp3|wav|ogg|aac|m4a|flac|dat)$/i.test(name)
       );
+    }
+
+    function isVideoFile(file) {
+      const name = (file && file.name) ? file.name.toLowerCase() : '';
+      return file && (
+        file.type.startsWith('video/') ||
+        /\.(mp4|webm|m4v|mov|avi|mpeg|3gp|ogv)$/i.test(name)
+      );
+    }
+
+    function isPlayableMediaFile(file) {
+      return isAudioFile(file) || isVideoFile(file);
     }
 
     function hasAccess() {
@@ -301,7 +316,7 @@
     }
 
     function unlockAdmin() {
-      const password = prompt('Zadej heslo pro upload a mazání skladeb:');
+      const password = prompt('Zadej heslo pro upload a mazání médií:');
       if (password === ADMIN_PASSWORD) {
         localStorage.setItem(ACCESS_KEY, 'allowed');
         app.classList.add('admin');
@@ -360,6 +375,25 @@
       });
     }
 
+    function updateMediaPlayer(track) {
+      const isVideo = track && track.kind === 'video';
+
+      audioPlayer.pause();
+      videoPlayer.pause();
+      audioPlayer.removeAttribute('src');
+      videoPlayer.removeAttribute('src');
+      audioPlayer.classList.toggle('hidden', isVideo);
+      videoPlayer.classList.toggle('hidden', !isVideo);
+
+      if (!track) return;
+
+      if (isVideo) {
+        videoPlayer.src = track.url;
+      } else {
+        audioPlayer.src = track.url;
+      }
+    }
+
     function renderTracks() {
       trackList.innerHTML = '';
 
@@ -374,7 +408,9 @@
 
         const playBtn = document.createElement('button');
         playBtn.className = 'play-btn' + (activeIndex === index ? ' active' : '');
-        playBtn.textContent = activeIndex === index && !player.paused ? '||' : '▶';
+        const isCurrentVideo = activeIndex === index && tracks[index].kind === 'video';
+        const isCurrentPlaying = activeIndex === index && ((tracks[index].kind === 'video' && !videoPlayer.paused) || (tracks[index].kind !== 'video' && !audioPlayer.paused));
+        playBtn.textContent = isCurrentPlaying ? '||' : '▶';
         playBtn.addEventListener('click', () => playTrack(index));
 
         const info = document.createElement('div');
@@ -383,7 +419,7 @@
         name.textContent = track.name;
         const meta = document.createElement('span');
         meta.className = 'track-meta';
-        meta.textContent = track.type || 'audio';
+        meta.textContent = track.kind || 'audio';
         info.appendChild(name);
         info.appendChild(meta);
 
@@ -409,13 +445,22 @@
       if (!track) return;
 
       if (activeIndex === index) {
-        if (player.paused) player.play();
-        else player.pause();
+        if (track.kind === 'video') {
+          if (videoPlayer.paused) videoPlayer.play();
+          else videoPlayer.pause();
+        } else {
+          if (audioPlayer.paused) audioPlayer.play();
+          else audioPlayer.pause();
+        }
       } else {
         activeIndex = index;
-        player.src = track.url;
-        player.play();
         activeTitle.textContent = track.name;
+        updateMediaPlayer(track);
+        if (track.kind === 'video') {
+          videoPlayer.play();
+        } else {
+          audioPlayer.play();
+        }
       }
 
       renderTracks();
@@ -434,32 +479,36 @@
 
       if (tracks.length === 0) {
         activeTitle.textContent = 'No track yet';
-        player.pause();
-        player.removeAttribute('src');
+        audioPlayer.pause();
+        videoPlayer.pause();
+        audioPlayer.removeAttribute('src');
+        videoPlayer.removeAttribute('src');
         return;
       }
 
       if (activeIndex >= 0) {
-        player.src = tracks[activeIndex].url;
-        activeTitle.textContent = tracks[activeIndex].name;
+        const chosen = tracks[activeIndex];
+        activeTitle.textContent = chosen.name;
+        updateMediaPlayer(chosen);
       }
     }
 
-    async function handleAudioUpload(files) {
+    async function handleMediaUpload(files) {
       if (!hasAccess()) {
         const ok = unlockAdmin();
         if (!ok) return;
       }
 
-      const valid = Array.from(files).filter(isAudioFile);
+      const valid = Array.from(files).filter(isPlayableMediaFile);
       if (!valid.length) {
-        alert('Pouze audio soubory (.mp3, .wav, .ogg, .aac, .m4a).');
+        alert('Pouze audio nebo video soubory (.mp3, .wav, .ogg, .aac, .m4a, .flac, .dat, .mp4, .webm, .mov, .avi).');
         return;
       }
 
       for (const file of valid) {
-        if (file.size > 8 * 1024 * 1024) {
-          alert('Soubor je moc velký. Zvol menší audio soubor.');
+        const maxSize = isVideoFile(file) ? 50 * 1024 * 1024 : 25 * 1024 * 1024;
+        if (file.size > maxSize) {
+          alert('Soubor je moc velký. Zvol menší mediální soubor.');
           continue;
         }
 
@@ -467,7 +516,8 @@
         tracks.push({
           name: file.name.replace(/\.[^.]+$/, ''),
           url: dataUrl,
-          type: 'audio',
+          kind: isVideoFile(file) ? 'video' : 'audio',
+          type: isVideoFile(file) ? 'video' : 'audio',
           duration: '—'
         });
       }
@@ -478,7 +528,7 @@
         activeIndex = 0;
         playTrack(0);
       }
-      audioInput.value = '';
+      mediaInput.value = '';
     }
 
     async function handleCoverUpload(file) {
@@ -503,6 +553,16 @@
       coverInput.value = '';
     }
 
+    function bindMediaDuration(player, track) {
+      if (!track) return;
+      const seconds = Number.isFinite(player.duration) ? player.duration : 0;
+      if (seconds > 0) {
+        track.duration = formatDuration(seconds);
+        saveTracks();
+        renderTracks();
+      }
+    }
+
     function setupEvents() {
       adminBtn.addEventListener('click', () => {
         if (hasAccess()) {
@@ -513,8 +573,8 @@
         unlockAdmin();
       });
 
-      audioInput.addEventListener('change', (event) => {
-        handleAudioUpload(event.target.files || []);
+      mediaInput.addEventListener('change', (event) => {
+        handleMediaUpload(event.target.files || []);
       });
 
       coverInput.addEventListener('change', (event) => {
@@ -522,12 +582,16 @@
         handleCoverUpload(file);
       });
 
-      player.addEventListener('loadedmetadata', () => {
+      audioPlayer.addEventListener('loadedmetadata', () => {
         const track = tracks[activeIndex];
-        if (!track) return;
-        track.duration = formatDuration(player.duration);
-        saveTracks();
-        renderTracks();
+        if (!track || track.kind !== 'audio') return;
+        bindMediaDuration(audioPlayer, track);
+      });
+
+      videoPlayer.addEventListener('loadedmetadata', () => {
+        const track = tracks[activeIndex];
+        if (!track || track.kind !== 'video') return;
+        bindMediaDuration(videoPlayer, track);
       });
     }
 
