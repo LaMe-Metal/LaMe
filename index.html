@@ -16,8 +16,6 @@
       --red: #d21f2d;
       --red-soft: #f0545e;
       --orange: #ff9f43;
-      --shadow: rgba(0,0,0,0.45);
-      --success: #98f5b7;
     }
 
     * { box-sizing: border-box; }
@@ -520,12 +518,12 @@
                 <p id="trackInfo">LaMe · Metal</p>
               </div>
               <div class="actions-row">
-                <label class="label-button" id="fileLabel" for="audioFile">＋ Add track</label>
+                <label class="label-button" id="fileLabel" for="audioFile">＋ Add audio/video</label>
                 <label class="label-button" id="coverLabel" for="coverUpload">Cover</label>
               </div>
             </div>
 
-            <input id="audioFile" type="file" accept="audio/*" multiple>
+            <input id="audioFile" type="file" accept="audio/*,video/*" multiple>
             <input id="coverUpload" type="file" accept="image/*">
             <div id="trackList" class="track-list"><div class="empty">Your releases will appear here.</div></div>
 
@@ -536,7 +534,7 @@
               <span id="totalTime">0:00</span>
             </div>
 
-            <p class="upload-note">Anyone can listen here. Uploads are protected by admin password, so only you can add tracks.</p>
+            <p class="upload-note">Video files are accepted and treated as playable media in the player. For best results, use a local server and smaller files.</p>
           </div>
 
           <aside class="info-box">
@@ -596,7 +594,7 @@
 
     function ensureAccess(event) {
       if (hasAccess()) return true;
-      const password = prompt('Zadej admin heslo pro nahrávání hudby a obalu:');
+      const password = prompt('Zadej admin heslo pro nahrávání hudby, videa a obalu:');
       if (password === ADMIN_PASSWORD) {
         localStorage.setItem(ACCESS_KEY, 'allowed');
         return true;
@@ -728,7 +726,12 @@
       for (const file of files) {
         const dataUrl = await readAsDataUrl(file);
         const name = file.name.replace(/\.[^.]+$/, '');
-        tracks.push({ name, url: dataUrl, duration: '' });
+        tracks.push({
+          name,
+          url: dataUrl,
+          duration: '',
+          type: file.type || 'audio'
+        });
       }
 
       saveTracks();
