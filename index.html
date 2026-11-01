@@ -71,6 +71,7 @@
       letter-spacing: 0.14em;
       text-transform: uppercase;
       cursor: pointer;
+      user-select: none;
     }
 
     .status {
@@ -157,7 +158,7 @@
 
     <div class="upload-wrap">
       <label class="fake-btn" for="mp4Input">Upload MP4</label>
-      <input id="mp4Input" type="file" accept="video/mp4,video/x-m4v,.mp4,.m4v" />
+      <input id="mp4Input" type="file" accept="video/mp4,video/x-m4v,video/quicktime,.mp4,.m4v,.mov" />
     </div>
 
     <div id="status" class="status">
@@ -171,7 +172,7 @@
     </div>
   </div>
 
-  <div class="version">v0.8</div>
+  <div class="version">v0.10</div>
 
   <script>
     const STORAGE_KEY = 'lame_last_mp4';
@@ -204,6 +205,13 @@
       });
     }
 
+    function isAllowedVideo(file) {
+      if (!file) return false;
+      const type = (file.type || '').toLowerCase();
+      const name = (file.name || '').toLowerCase();
+      return type.includes('mp4') || type.includes('m4v') || type.includes('quicktime') || /\.(mp4|m4v|mov)$/i.test(name);
+    }
+
     function saveVideo(file, dataUrl) {
       localStorage.setItem(STORAGE_KEY, dataUrl);
       localStorage.setItem(FILE_NAME_KEY, file.name);
@@ -224,10 +232,7 @@
     async function handleMp4(file) {
       if (!file) return;
 
-      const name = file.name.toLowerCase();
-      const ok = file.type === 'video/mp4' || file.type === 'video/x-m4v' || /\.(mp4|m4v)$/i.test(name);
-
-      if (!ok) {
+      if (!isAllowedVideo(file)) {
         showStatus('Only MP4', false);
         setTimeout(() => hideStatus(), 1200);
         return;
@@ -260,7 +265,7 @@
     }
 
     mp4Input.addEventListener('change', (event) => {
-      const file = event.target.files && event.target.files[0];
+      const file = event.target && event.target.files ? event.target.files[0] : null;
       handleMp4(file);
     });
 
