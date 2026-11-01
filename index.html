@@ -237,16 +237,7 @@
     }
 
     .cover-hint {
-      position: absolute;
-      right: -4px;
-      bottom: -12px;
-      font-size: 9px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--muted);
-      opacity: 0.7;
-      pointer-events: none;
-      z-index: 2;
+      display: none;
     }
 
     .release-actions {
@@ -372,7 +363,7 @@
   </style>
 </head>
 <body>
-  <div id="version-badge" class="version-chip" aria-live="polite">v0.1</div>
+  <div id="version-badge" class="version-chip" aria-live="polite">v0.2</div>
 
   <div class="page">
     <header class="hero reveal">
@@ -392,7 +383,6 @@
         <div class="release-main">
           <div class="cover-wrap">
             <img class="cover" src="./ac.png" alt="Suppressed Scream cover art" />
-            <div class="cover-hint">press</div>
           </div>
 
           <div class="release-actions">
@@ -431,18 +421,13 @@
     revealItems.forEach((item) => observer.observe(item));
 
     const versionBadge = document.getElementById('version-badge');
-    const currentVersion = 'v0.1';
+    const currentVersion = 'v0.2';
 
     function setVersion(version) {
       if (versionBadge) versionBadge.textContent = version;
     }
 
     setVersion(currentVersion);
-
-    // Use this for future updates:
-    // setVersion('v0.2');
-    // setVersion('v0.3');
-    // setVersion('v0.4');
   </script>
 </body>
 </html>
