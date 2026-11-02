@@ -25,7 +25,6 @@
       --shadow: rgba(0,0,0,0.75);
       --glow: rgba(217,45,66,0.18);
       --glow-strong: rgba(217,45,66,0.38);
-      --glass: rgba(255,255,255,0.02);
     }
 
     * {
@@ -248,78 +247,42 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 54px;
-      padding: 12px 16px;
-      border-radius: 14px;
+      min-height: 52px;
+      padding: 10px 14px;
+      border-radius: 12px;
       text-decoration: none;
       text-transform: uppercase;
-      letter-spacing: 0.14em;
-      font-size: 9px;
+      letter-spacing: 0.12em;
+      font-size: 8px;
       font-weight: 800;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease, opacity 0.18s ease;
       user-select: none;
       overflow: hidden;
-      isolation: isolate;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: linear-gradient(180deg, rgba(18,18,18,0.94), rgba(8,8,8,0.98));
+      background: linear-gradient(180deg, rgba(15,15,15,0.96), rgba(7,7,7,0.98));
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--text);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      box-shadow:
-        0 10px 18px rgba(0,0,0,0.16),
-        inset 0 1px 0 rgba(255,255,255,0.06),
-        0 0 0 1px rgba(255,255,255,0.01);
-      color: var(--text);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 8px 18px rgba(0,0,0,0.18);
     }
 
     .button::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(120deg, rgba(255,255,255,0.14), rgba(255,255,255,0.03) 16%, transparent 36%, rgba(255,255,255,0.06) 74%, transparent 100%);
-      opacity: 0.8;
+      background: linear-gradient(120deg, rgba(255,255,255,0.08), transparent 20%, transparent 76%, rgba(255,255,255,0.04));
       pointer-events: none;
       z-index: 0;
-    }
-
-    .button::after {
-      content: "";
-      position: absolute;
-      inset: auto 12% -28% 12%;
-      height: 78%;
-      background: radial-gradient(circle at center, rgba(255,255,255,0.14), rgba(217,45,66,0.08) 32%, transparent 72%);
-      filter: blur(12px);
-      opacity: 0.55;
-      pointer-events: none;
-      z-index: 0;
-      transition: opacity 0.25s ease, transform 0.25s ease;
-    }
-
-    .button > * {
-      position: relative;
-      z-index: 1;
     }
 
     .button:hover {
       transform: translateY(-1px);
-      filter: brightness(1.04);
-      box-shadow:
-        0 14px 22px rgba(0,0,0,0.18),
-        inset 0 1px 0 rgba(255,255,255,0.08),
-        0 0 18px rgba(217,45,66,0.06);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 12px 18px rgba(0,0,0,0.2);
+      filter: brightness(1.02);
     }
 
-    .button:hover::before {
-      animation: glossSweep 0.7s ease;
-    }
-
-    .button:hover::after {
-      opacity: 0.8;
-      transform: scale(1.05);
-    }
-
-    @keyframes glossSweep {
-      0% { transform: translateX(-25%) skewX(-16deg); }
-      100% { transform: translateX(120%) skewX(-16deg); }
+    .button:active {
+      transform: translateY(0);
     }
 
     .stack { display: grid; gap: 18px; margin-top: 18px; }
@@ -389,10 +352,7 @@
       .release-actions, .accounts-grid { grid-template-columns: 1fr; }
       .brand { letter-spacing: 0.18em; }
       .title { letter-spacing: 0.12em; }
-      .button {
-        letter-spacing: 0.12em;
-        font-size: 8px;
-      }
+      .button { letter-spacing: 0.1em; }
       .version-chip {
         right: max(10px, env(safe-area-inset-right));
         bottom: max(10px, env(safe-area-inset-bottom));
@@ -406,7 +366,7 @@
   </style>
 </head>
 <body>
-  <div id="version-badge" class="version-chip" aria-live="polite">v0.3</div>
+  <div id="version-badge" class="version-chip" aria-live="polite">v0.4</div>
 
   <div class="page">
     <header class="hero reveal">
@@ -464,7 +424,7 @@
     revealItems.forEach((item) => observer.observe(item));
 
     const versionBadge = document.getElementById('version-badge');
-    const currentVersion = 'v0.3';
+    const currentVersion = 'v0.4';
 
     function setVersion(version) {
       if (versionBadge) versionBadge.textContent = version;
