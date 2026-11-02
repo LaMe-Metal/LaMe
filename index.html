@@ -25,7 +25,6 @@
       --shadow: rgba(0,0,0,0.75);
       --glow: rgba(217,45,66,0.18);
       --glow-strong: rgba(217,45,66,0.38);
-      --glass: rgba(255,255,255,0.02);
     }
 
     * {
@@ -48,6 +47,7 @@
         linear-gradient(180deg, #040404 0%, #0a0a0a 100%);
       overflow-x: hidden;
       touch-action: manipulation;
+      position: relative;
     }
 
     body::before {
@@ -65,6 +65,31 @@
         );
       pointer-events: none;
       z-index: 0;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: -12% -10% auto auto;
+      width: 42vw;
+      height: 42vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(217,45,66,0.18), rgba(217,45,66,0.06) 30%, transparent 70%);
+      filter: blur(55px);
+      pointer-events: none;
+      z-index: 0;
+      animation: ambientPulse 9s ease-in-out infinite alternate;
+    }
+
+    @keyframes ambientPulse {
+      0% {
+        transform: scale(1) translate3d(0, 0, 0);
+        opacity: 0.7;
+      }
+      100% {
+        transform: scale(1.12) translate3d(-2%, 4%, 0);
+        opacity: 1;
+      }
     }
 
     .page {
@@ -106,9 +131,19 @@
       text-transform: uppercase;
       font-weight: 900;
       color: var(--text);
+      text-shadow: 0 0 22px rgba(255,255,255,0.08), 0 0 28px rgba(217,45,66,0.2);
+      animation: floatTitle 6s ease-in-out infinite alternate;
     }
 
-    .brand .accent { color: var(--red-6); text-shadow: 0 0 22px rgba(217,45,66,0.26); }
+    .brand .accent {
+      color: var(--red-6);
+      text-shadow: 0 0 22px rgba(217,45,66,0.35), 0 0 42px rgba(217,45,66,0.18);
+    }
+
+    @keyframes floatTitle {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-2px); }
+    }
 
     .badge {
       color: var(--muted);
@@ -198,6 +233,12 @@
       justify-content: center;
       perspective: 1200px;
       transform-style: preserve-3d;
+      animation: floatCover 7s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatCover {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-3px); }
     }
 
     .cover-wrap::before {
@@ -226,10 +267,11 @@
       transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease, border-color 0.25s ease;
       transform-style: preserve-3d;
       will-change: transform, filter;
+      border-radius: 16px;
     }
 
     .cover-wrap:hover .cover {
-      transform: scale(1.02);
+      transform: scale(1.02) rotateY(2deg);
       filter: saturate(1.1) contrast(1.05) brightness(1.04);
       box-shadow:
         0 24px 40px rgba(0,0,0,0.5),
@@ -244,6 +286,7 @@
     }
 
     .button {
+      position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -257,26 +300,48 @@
       font-weight: 800;
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, filter 0.2s ease, background 0.2s ease;
       user-select: none;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      color: var(--text);
+      box-shadow: inset 0 0 18px rgba(255,255,255,0.02);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      will-change: transform;
+    }
+
+    .button::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255,255,255,0.18), rgba(255,255,255,0.03) 18%, transparent 42%, rgba(255,255,255,0.06) 70%, transparent 100%);
+      opacity: 0.8;
+      pointer-events: none;
+      z-index: 0;
     }
 
     .button.primary {
-      background: linear-gradient(180deg, var(--red-5), var(--red-4));
+      background: linear-gradient(180deg, rgba(188, 18, 38, 0.96), rgba(87, 10, 19, 0.96));
       color: var(--white);
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 14px 26px rgba(177,13,30,0.24), 0 0 0 1px rgba(255,255,255,0.02), 0 0 18px rgba(217,45,66,0.12);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 14px 26px rgba(177,13,30,0.24), 0 0 0 1px rgba(255,255,255,0.02), 0 0 18px rgba(217,45,66,0.14);
     }
 
     .button.secondary {
-      background: rgba(255,255,255,0.02);
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(12,12,12,0.9));
       color: var(--text);
-      border: 1px solid var(--line-strong);
-      box-shadow: inset 0 0 18px rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 0 18px rgba(255,255,255,0.02), 0 8px 16px rgba(0,0,0,0.18);
     }
 
     .button:hover {
-      transform: translateY(-2px);
+      transform: translateY(-2px) scale(1.01);
       filter: brightness(1.08);
-      box-shadow: 0 18px 30px rgba(0,0,0,0.22), 0 0 18px rgba(217,45,66,0.14);
+      box-shadow: 0 18px 30px rgba(0,0,0,0.22), 0 0 18px rgba(217,45,66,0.14), inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    .button:active {
+      transform: translateY(0);
     }
 
     .stack { display: grid; gap: 18px; margin-top: 18px; }
@@ -346,6 +411,10 @@
       .release-actions, .accounts-grid { grid-template-columns: 1fr; }
       .brand { letter-spacing: 0.18em; }
       .title { letter-spacing: 0.12em; }
+      .button {
+        letter-spacing: 0.12em;
+        font-size: 8px;
+      }
       .version-chip {
         right: max(10px, env(safe-area-inset-right));
         bottom: max(10px, env(safe-area-inset-bottom));
@@ -359,7 +428,7 @@
   </style>
 </head>
 <body>
-  <div id="version-badge" class="version-chip" aria-live="polite">v0.5</div>
+  <div id="version-badge" class="version-chip" aria-live="polite">v0.6</div>
 
   <div class="page">
     <header class="hero reveal">
@@ -417,7 +486,7 @@
     revealItems.forEach((item) => observer.observe(item));
 
     const versionBadge = document.getElementById('version-badge');
-    const currentVersion = 'v0.5';
+    const currentVersion = 'v0.6';
 
     function setVersion(version) {
       if (versionBadge) versionBadge.textContent = version;
